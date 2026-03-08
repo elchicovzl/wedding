@@ -1,0 +1,287 @@
+.hero-section {
+    position: relative;
+    height: 100vh;
+    min-height: -webkit-fill-available;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Background image layer (parallax) */
+.hero-bg-layer {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 120px);
+    background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    will-change: transform;
+}
+
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(253, 251, 247, 0.4) 0%,
+            rgba(253, 251, 247, 0.7) 50%,
+            var(--color-background) 100%);
+    z-index: 2;
+}
+
+/* Botanical decorative layers */
+.hero-botanical-layer,
+.hero-far-botanical-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.hero-far-botanical-layer {
+    z-index: 2;
+}
+
+/* Individual botanical elements */
+.botanical {
+    position: absolute;
+    color: var(--color-primary);
+    opacity: 0.25;
+    transition: opacity 0.3s ease;
+}
+
+/* Top corners */
+.botanical-top-left {
+    top: 2%;
+    left: -2%;
+    width: clamp(120px, 25vw, 220px);
+    transform: rotate(10deg);
+}
+
+.botanical-top-right {
+    top: 2%;
+    right: -2%;
+    width: clamp(120px, 25vw, 220px);
+    transform: scaleX(-1) rotate(10deg);
+}
+
+/* Side sprigs */
+.botanical-left {
+    top: 30%;
+    left: 1%;
+    width: clamp(40px, 8vw, 70px);
+    color: var(--color-secondary);
+    opacity: 0.2;
+    transform: rotate(15deg);
+}
+
+.botanical-right {
+    top: 25%;
+    right: 1%;
+    width: clamp(40px, 8vw, 70px);
+    color: var(--color-secondary);
+    opacity: 0.2;
+    transform: scaleX(-1) rotate(15deg);
+}
+
+/* Bottom corners */
+.botanical-bottom-left {
+    bottom: 8%;
+    left: -2%;
+    width: clamp(100px, 20vw, 180px);
+    transform: rotate(180deg) scaleX(-1);
+    opacity: 0.2;
+}
+
+.botanical-bottom-right {
+    bottom: 8%;
+    right: -2%;
+    width: clamp(100px, 20vw, 180px);
+    transform: rotate(180deg);
+    opacity: 0.2;
+}
+
+/* Far layer sprigs */
+.botanical-far-left {
+    top: 55%;
+    left: 4%;
+    width: clamp(30px, 6vw, 50px);
+    opacity: 0.12;
+    transform: rotate(-10deg);
+}
+
+.botanical-far-right {
+    top: 50%;
+    right: 4%;
+    width: clamp(30px, 6vw, 50px);
+    opacity: 0.12;
+    transform: scaleX(-1) rotate(-10deg);
+}
+
+/* Content */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl) var(--spacing-sm) calc(var(--spacing-xl) * 2);
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    will-change: transform;
+}
+
+.save-the-date {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: 0.25em;
+}
+
+.couple-names {
+    font-size: clamp(3.5rem, 15vw, 8rem);
+    color: var(--color-text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    margin-bottom: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+    .couple-names {
+        flex-direction: row;
+        justify-content: center;
+        gap: var(--spacing-md);
+    }
+}
+
+.name-separator {
+    color: var(--color-secondary);
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    margin: var(--spacing-xs) 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heart-icon {
+    filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
+}
+
+.wedding-date {
+    font-size: clamp(1.2rem, 5vw, 2.5rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: 0.05em;
+    border-top: 1px solid var(--color-primary-light);
+    border-bottom: 1px solid var(--color-primary-light);
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: inline-block;
+    width: 90%;
+    max-width: 400px;
+}
+
+.wedding-location {
+    font-size: 0.8rem;
+    color: var(--color-text-main);
+    letter-spacing: 0.15em;
+    margin-top: var(--spacing-sm);
+    padding: 0 var(--spacing-sm);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 4vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.8;
+    z-index: 15;
+}
+
+.scroll-indicator span {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.1em;
+}
+
+.mouse {
+    width: 24px;
+    height: 36px;
+    border: 2px solid var(--color-text-muted);
+    border-radius: 18px;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 6px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scroll 1.5s infinite;
+}
+
+@keyframes scroll {
+    0% {
+        top: 6px;
+        opacity: 1;
+    }
+
+    100% {
+        top: 16px;
+        opacity: 0;
+    }
+}
+
+/* Mobile: reduce botanical visibility to avoid clutter */
+@media (max-width: 600px) {
+    .botanical-left,
+    .botanical-right,
+    .botanical-far-left,
+    .botanical-far-right {
+        display: none;
+    }
+
+    .botanical-top-left,
+    .botanical-top-right,
+    .botanical-bottom-left,
+    .botanical-bottom-right {
+        opacity: 0.15;
+    }
+}

@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Family {
+  id             String    @id @default(uuid())
+  name           String
+  inviteCode     String    @unique
+  totalSlots     Int
+  childrenCount  Int       @default(0)
+  groupAttending Boolean?
+  drinkChoice    String?
+  stayOvernight  Boolean?
+  respondedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  members        Member[]
+}
+
+model Member {
+  id        String   @id @default(uuid())
+  familyId  String
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  name      String
+  isChild   Boolean  @default(false)
+  attending Boolean?
+  createdAt DateTime @default(now())
+}

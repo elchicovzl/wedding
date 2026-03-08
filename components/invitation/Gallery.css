@@ -1,0 +1,100 @@
+.gallery-section {
+    background-color: var(--color-background);
+    padding: var(--spacing-xl) 0;
+    min-height: auto;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.gallery-title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.gallery-subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--color-text-muted);
+}
+
+/* Masonry-like grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-md);
+    }
+}
+
+/* Span variations for visual interest */
+.gallery-item--tall {
+    grid-row: span 2;
+}
+
+.gallery-item--wide {
+    grid-column: span 2;
+}
+
+/* Image wrapper */
+.gallery-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.gallery-item--tall .gallery-img-wrap {
+    min-height: 420px;
+}
+
+@media (max-width: 767px) {
+    .gallery-item--tall .gallery-img-wrap {
+        min-height: 320px;
+    }
+}
+
+.gallery-img-wrap:hover {
+    box-shadow: 0 8px 28px rgba(212, 175, 55, 0.18), var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.gallery-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+    border: 1.5px solid transparent;
+    transition: border-color 0.35s ease;
+    pointer-events: none;
+}
+
+.gallery-img-wrap:hover::after {
+    border-color: var(--color-secondary);
+}
+
+.gallery-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.gallery-img-wrap:hover img {
+    transform: scale(1.04);
+}

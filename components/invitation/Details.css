@@ -1,0 +1,127 @@
+.bg-texture {
+    background-color: var(--color-background);
+    /* Optional subtle texture pattern */
+    background-image: radial-gradient(var(--color-primary-light) 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0;
+    opacity: 0.95;
+}
+
+.details-section {
+    position: relative;
+    z-index: 10;
+    padding: var(--spacing-xl) 0;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .details-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.detail-card {
+    padding: var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+    border: 1px solid var(--color-primary-light);
+    box-shadow: var(--shadow-sm);
+}
+
+.detail-icon {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+.detail-title {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-main);
+}
+
+.detail-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Time Block Styles */
+.time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.time-label {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.time-value {
+    font-size: 1.25rem;
+}
+
+.time-separator {
+    width: 2px;
+    height: 20px;
+    background-color: var(--color-secondary);
+    margin: var(--spacing-sm) 0;
+}
+
+/* Location Styles */
+.address-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-main);
+}
+
+.map-btn {
+    margin-top: auto;
+}
+
+/* Dress Code Styles */
+.dress-code-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-main);
+    text-transform: capitalize;
+}
+
+.dress-code-subtext {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}

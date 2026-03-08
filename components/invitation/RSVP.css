@@ -1,0 +1,375 @@
+.rsvp-section {
+    background-color: var(--color-background);
+    padding: var(--spacing-xl) 0;
+}
+
+.rsvp-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-sm);
+    border-top: 4px solid var(--color-primary);
+    width: 95%;
+}
+
+@media (min-width: 600px) {
+    .rsvp-container {
+        padding: var(--spacing-xl) var(--spacing-lg);
+        width: 100%;
+    }
+}
+
+.rsvp-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.rsvp-title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.rsvp-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 0.2rem;
+    color: var(--color-text-main);
+    margin-bottom: var(--spacing-sm);
+}
+
+.rsvp-description {
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+.group-name-highlight {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    color: var(--color-text-main);
+    display: block;
+    margin-top: var(--spacing-xs);
+    font-weight: 500;
+}
+
+/* Group Attendance */
+.group-attendance-card {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-primary-light);
+}
+
+.attendance-question {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+.attendance-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+@media (min-width: 600px) {
+    .attendance-toggle {
+        flex-direction: row;
+    }
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 16px 12px;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: transparent;
+    border: 2px solid #dcdfd8;
+    color: var(--color-text-muted);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn.active-yes {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(79, 93, 72, 0.3);
+}
+
+.toggle-btn.active-no {
+    background-color: #f1f2f0;
+    border-color: #dcdfd8;
+    color: #8c9189;
+    text-decoration: line-through;
+}
+
+/* Guests & Drinks wrapper */
+.guests-and-drinks {
+    overflow: hidden;
+}
+
+/* Guest Checklist */
+.guest-checklist-card {
+    margin-bottom: var(--spacing-md);
+}
+
+.guest-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.guest-checklist-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: white;
+    border: 1.5px solid var(--color-primary-light);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow: hidden;
+}
+
+.guest-checklist-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.guest-checklist-item.confirmed {
+    background: rgba(79, 93, 72, 0.06);
+    border-color: var(--color-primary);
+}
+
+.guest-check-indicator {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+}
+
+.guest-check-icon.unchecked {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    transition: border-color 0.2s;
+}
+
+.guest-checklist-item:hover .guest-check-icon.unchecked {
+    border-color: var(--color-primary-light);
+}
+
+.guest-check-icon.checked {
+    font-size: 1.2rem;
+    color: var(--color-primary);
+}
+
+.guest-check-name {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.guest-checklist-item.confirmed .guest-check-name {
+    color: var(--color-primary);
+}
+
+/* Animated strikethrough line */
+.guest-strike-line {
+    position: absolute;
+    left: 50px;
+    right: 18px;
+    top: 50%;
+    height: 1.5px;
+    background: linear-gradient(
+        90deg,
+        var(--color-primary) 0%,
+        var(--color-secondary) 50%,
+        var(--color-primary) 100%
+    );
+    transform-origin: left center;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* Drinks Section */
+.drinks-section {
+    overflow: hidden;
+}
+
+.drinks-title {
+    text-align: center;
+    color: var(--color-text-main);
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.drinks-subtitle {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-md);
+    font-style: italic;
+}
+
+/* Single group drink grid — centered and prominent */
+.drink-grid-single {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+    .drink-grid-single {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 100%;
+    }
+}
+
+.drink-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 10px;
+    border: 1px solid var(--color-primary-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+}
+
+/* Larger drink options for single-selection */
+.drink-option-lg {
+    padding: 22px 14px;
+    border-radius: var(--radius-md);
+    border-width: 2px;
+}
+
+.drink-option input[type="radio"] {
+    display: none;
+}
+
+.drink-option span {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+}
+
+.drink-option-lg span {
+    font-size: 1rem;
+}
+
+.drink-option.selected {
+    background-color: var(--color-secondary-light);
+    border-color: var(--color-secondary);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+
+.drink-option-lg.selected {
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+}
+
+.drink-option.selected span {
+    color: #6a5310;
+    font-weight: 700;
+}
+
+/* Submit Area */
+.form-submit {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+}
+
+.submit-btn {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px;
+    font-size: 1.1rem;
+    border-radius: var(--radius-lg);
+}
+
+@media (min-width: 600px) {
+    .submit-btn {
+        max-width: 350px;
+    }
+}
+
+.submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.submit-icon {
+    margin-left: 10px;
+}
+
+.submit-note {
+    margin-top: var(--spacing-sm);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* Error / Success */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-top-color: #d1b4b4;
+}
+
+.error-icon {
+    font-size: 3rem;
+    color: #a37272;
+    margin-bottom: var(--spacing-md);
+}
+
+.success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.success-message h3 {
+    font-size: 1.5rem;
+    color: var(--color-text-main);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--spacing-sm);
+}
