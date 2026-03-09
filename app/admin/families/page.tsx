@@ -241,7 +241,7 @@ export default function FamiliesPage() {
 
   if (loading) {
     return (
-      <div className="max-w-10! mx-auto p-6 space-y-6">
+      <div className="max-w-10! mx-auto p-6! space-y-6">
         <div className="flex justify-between items-center">
           <div className="space-y-2">
             <Skeleton className="h-8 w-32" />
@@ -253,7 +253,8 @@ export default function FamiliesPage() {
           <Skeleton className="h-10 w-80" />
           <Skeleton className="h-10 w-64" />
         </div>
-        <Card className="p-0!">
+        {/* Desktop skeleton */}
+        <Card className="p-0! hidden md:block">
           <CardContent className="p-0!">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="flex items-center gap-4 p-4! border-b border-border last:border-0">
@@ -267,6 +268,32 @@ export default function FamiliesPage() {
             ))}
           </CardContent>
         </Card>
+        {/* Mobile skeleton */}
+        <div className="md:hidden space-y-4!">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="shadow-sm border border-border p-0!">
+              <CardContent className="p-4!">
+                <div className="flex items-start justify-between mb-3!">
+                  <div className="flex-1 space-y-2!">
+                    <Skeleton className="h-5 w-3/5" />
+                    <Skeleton className="h-3 w-2/5" />
+                  </div>
+                  <Skeleton className="h-8 w-8 rounded-md shrink-0" />
+                </div>
+                <Skeleton className="h-6 w-24! mb-3!" />
+                <div className="flex flex-wrap gap-2 mb-3!">
+                  <Skeleton className="h-6 w-20 rounded-full" />
+                  <Skeleton className="h-6 w-24 rounded-full" />
+                  <Skeleton className="h-6 w-16 rounded-full" />
+                </div>
+                <div className="flex items-center gap-4 pt-3! border-t border-border">
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-5 w-20" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }
@@ -295,36 +322,39 @@ export default function FamiliesPage() {
       </div>
 
       {/* Filters & Search */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6! items-start sm:items-center">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6! items-stretch sm:items-center">
+        <div className="relative flex-1 sm:max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar por nombre de familia..."
+            placeholder="Buscar familia..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9! h-10!"
           />
         </div>
-        <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)}>
-          <TabsList className="h-10! p-2!">
-            {([
-              { key: "all", label: "Todas" },
-              { key: "confirmed", label: "Confirmadas" },
-              { key: "pending", label: "Pendientes" },
-              { key: "declined", label: "Declinadas" },
-            ] as const).map((f) => (
-              <TabsTrigger key={f.key} value={f.key} className="gap-1.5 px-3! py-1.5! text-sm!">
-                {f.label}
-                <Badge variant="secondary" className="ml-0.5 px-1.5! py-0 text-[10px] font-semibold h-5 min-w-5 flex items-center justify-center">
-                  {filterCounts[f.key]}
-                </Badge>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+        <div className="overflow-x-auto -mx-1.5 px-1.5">
+          <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)}>
+            <TabsList className="h-10! p-2! w-max">
+              {([
+                { key: "all", label: "Todas" },
+                { key: "confirmed", label: "Confirmadas" },
+                { key: "pending", label: "Pendientes" },
+                { key: "declined", label: "Declinadas" },
+              ] as const).map((f) => (
+                <TabsTrigger key={f.key} value={f.key} className="gap-1 px-2.5! py-1.5! text-xs! sm:text-sm! sm:px-3!">
+                  {f.label}
+                  <Badge variant="secondary" className="ml-0.5 px-1.5! py-0 text-[10px] font-semibold h-5 min-w-5 flex items-center justify-center">
+                    {filterCounts[f.key]}
+                  </Badge>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
-      {/* Table */}
+      {/* Table - Desktop */}
+      <div className="hidden md:block">
       <Card className="shadow-sm border border-border p-0!">
         <CardContent className="p-0! overflow-x-auto">
           <Table>
@@ -459,19 +489,136 @@ export default function FamiliesPage() {
             </TableBody>
           </Table>
 
-          {filteredFamilies.length === 0 && (
-            <div className="text-center py-12">
-              <Search className="h-8 w-8 text-muted-foreground/20 mx-auto mb-3" />
-              <p className="text-muted-foreground text-sm">
-                No se encontraron familias
-              </p>
-              <p className="text-muted-foreground/60 text-xs mt-1">
-                Intenta ajustar los filtros o la búsqueda
-              </p>
-            </div>
-          )}
         </CardContent>
       </Card>
+      </div>
+
+      {/* Cards - Mobile */}
+      <div className="md:hidden space-y-4!">
+        {filteredFamilies.map((family) => (
+          <Card key={family.id} className="shadow-sm border border-border p-0!">
+            <CardContent className="p-4!">
+              {/* Header: Name + Actions */}
+              <div className="flex items-start justify-between mb-2!">
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-foreground text-sm truncate">
+                    {family.name}
+                  </p>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <Link className="h-3 w-3 text-muted-foreground/40 shrink-0" />
+                    <code className="text-[11px] text-muted-foreground font-mono">
+                      {family.inviteCode}
+                    </code>
+                    <span className="text-muted-foreground/30 mx-1">·</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {family.totalSlots} cupos
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    onClick={() => toggleInvitationSent(family.id, family.invitationSent)}
+                    className="inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-accent transition-colors"
+                    title={family.invitationSent ? "Marcar como no enviada" : "Marcar como enviada"}
+                  >
+                    <Send className={`h-4 w-4 ${family.invitationSent ? "text-emerald-500" : "text-muted-foreground/30"}`} />
+                  </button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="p-4!" align="end">
+                      <DropdownMenuItem onClick={() => copyLink(family.inviteCode, family.id)}>
+                        {copiedId === family.id ? (
+                          <Check className="h-4 w-4 mr-2 text-emerald-500" />
+                        ) : (
+                          <Copy className="h-4 w-4 mr-2" />
+                        )}
+                        {copiedId === family.id ? "Copiado!" : "Copiar link"}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => openEditForm(family)}>
+                        <Pencil className="h-4 w-4 mr-2" /> Editar
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => setDeleteConfirm(family.id)}
+                        className="text-destructive focus:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" /> Eliminar
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+
+              {/* Status */}
+              <div className="mb-3!">
+                {getStatusBadge(family)}
+              </div>
+
+              {/* Members */}
+              <div className="flex flex-wrap gap-1.5 mb-3!">
+                {family.members.map((m) => (
+                  <Badge
+                    key={m.id}
+                    variant="outline"
+                    className={`text-xs font-medium ${
+                      m.attending === true
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : m.attending === false
+                          ? "bg-red-50 text-red-400 border-red-200 line-through"
+                          : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {m.name}
+                    {m.isChild && (
+                      <Baby className="h-3 w-3 ml-0.5 opacity-50" />
+                    )}
+                  </Badge>
+                ))}
+              </div>
+
+              {/* Footer: Drink + Overnight */}
+              <div className="flex items-center gap-4 text-sm pt-2 border-t border-border">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-muted-foreground text-xs">Bebida:</span>
+                  {family.drinkChoice ? (
+                    <Badge variant="secondary" className="font-medium text-xs">
+                      {family.drinkChoice}
+                    </Badge>
+                  ) : (
+                    <span className="text-muted-foreground/40">—</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-muted-foreground text-xs">Finca:</span>
+                  {family.stayOvernight === null ? (
+                    <span className="text-muted-foreground/40">—</span>
+                  ) : family.stayOvernight ? (
+                    <Badge variant="outline" className="bg-violet-50 text-violet-600 border-violet-200 font-medium text-xs">
+                      Sí
+                    </Badge>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">No</span>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Empty state */}
+      {filteredFamilies.length === 0 && (
+        <div className="text-center py-12">
+          <Search className="h-8 w-8 text-muted-foreground/20 mx-auto mb-3" />
+          <p className="text-muted-foreground text-sm">
+            No se encontraron familias
+          </p>
+          <p className="text-muted-foreground/60 text-xs mt-1">
+            Intenta ajustar los filtros o la búsqueda
+          </p>
+        </div>
+      )}
 
       <p className="text-xs text-muted-foreground mt-3! text-right">
         Mostrando {filteredFamilies.length} de {families.length} familias
