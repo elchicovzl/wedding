@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
 const MEDIA = [
@@ -49,6 +51,16 @@ const MEDIA = [
 ];
 
 const Gallery = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
+
   return (
     <section className="section gallery-section" id="gallery">
       <div className="container">
@@ -75,13 +87,23 @@ const Gallery = () => {
             >
               <div className="gallery-img-wrap">
                 {item.type === 'video' ? (
-                  <video
-                    src={item.src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  />
+                  <div style={{ position: 'relative' }}>
+                    <video
+                      ref={videoRef}
+                      src={item.src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                    <button
+                      onClick={toggleMute}
+                      className="video-mute-btn"
+                      aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
+                    >
+                      {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+                    </button>
+                  </div>
                 ) : (
                   <img
                     src={item.src}

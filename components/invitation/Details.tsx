@@ -42,25 +42,6 @@ const Details = ({ ceremonyTime, receptionTime, address, mapUrl, dressCode }: De
                     variants={containerVariants}
                     className="details-grid"
                 >
-                    {/* Cuándo */}
-                    <motion.div className="detail-card glass-panel" variants={itemVariants}>
-                        <div className="icon-wrapper">
-                            <FaClock className="detail-icon" />
-                        </div>
-                        <h2 className="script-font detail-title">Cuándo</h2>
-                        <div className="detail-content">
-                            <div className="time-block">
-                                <span className="time-label sans-font">Llegada al lugar</span>
-                                <span className="time-value">{receptionTime}</span>
-                            </div>
-                            <div className="time-separator"></div>
-                            <div className="time-block">
-                                <span className="time-label sans-font">Ceremonia</span>
-                                <span className="time-value">{ceremonyTime}</span>
-                            </div>
-                        </div>
-                    </motion.div>
-
                     {/* Dónde */}
                     <motion.div className="detail-card glass-panel" variants={itemVariants}>
                         <div className="icon-wrapper">
@@ -77,6 +58,25 @@ const Details = ({ ceremonyTime, receptionTime, address, mapUrl, dressCode }: De
                             >
                                 Ver en Mapa
                             </a>
+                        </div>
+                    </motion.div>
+
+                    {/* Hora */}
+                    <motion.div className="detail-card glass-panel" variants={itemVariants}>
+                        <div className="icon-wrapper">
+                            <FaClock className="detail-icon" />
+                        </div>
+                        <h2 className="script-font detail-title">Hora</h2>
+                        <div className="detail-content">
+                            <div className="time-block">
+                                <span className="time-label sans-font">Llegada al lugar</span>
+                                <span className="time-value">{receptionTime}</span>
+                            </div>
+                            <div className="time-separator"></div>
+                            <div className="time-block">
+                                <span className="time-label sans-font">Ceremonia</span>
+                                <span className="time-value">{ceremonyTime}</span>
+                            </div>
                         </div>
                     </motion.div>
 

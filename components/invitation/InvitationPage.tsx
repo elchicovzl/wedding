@@ -67,12 +67,9 @@ export default function InvitationPage({
       <div className="section divider-section">
         <div className="container">
           <p className="script-font quote-text">
-            &ldquo;El amor no consiste en mirarse el uno al otro, sino en mirar
-            juntos en la misma dirección.&rdquo;
+            &ldquo;El amor nos unió, y hoy decidimos caminar juntos para siempre.
+            Nos encantaría que seas parte de este momento tan especial.&rdquo;
           </p>
-          <span className="quote-author sans-font">
-            - A. de Saint-Exupéry
-          </span>
         </div>
       </div>
 
