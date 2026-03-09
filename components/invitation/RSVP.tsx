@@ -173,6 +173,11 @@ const RSVP = ({
                 <h3 className="attendance-question sans-font">
                   ¿Nos acompañarán este día?
                 </h3>
+                <p className="drinks-subtitle">
+                  Indispensable confirmar asistencia
+                  <br />
+                  antes del 10 de mayo 2026
+                </p>
                 <div className="attendance-toggle group-toggle">
                   <button
                     type="button"
@@ -286,10 +291,21 @@ const RSVP = ({
                       <h3 className="attendance-question sans-font">
                         ¿Se quedan a dormir en la finca?
                       </h3>
-                      <p className="drinks-subtitle">
-                        La finca tiene habitaciones disponibles para los
-                        invitados.
-                      </p>
+                      <div className="overnight-info">
+                        <p className="overnight-info-title">Información de alojamiento</p>
+                        <p>
+                          Para quienes deseen evitar el viaje de regreso y disfrutar con nosotros el día siguiente, la finca ofrece habitaciones sencillas de descanso.
+                        </p>
+                        <p style={{ marginTop: '0.5rem' }}>
+                          <strong>Domingo de amigos:</strong> Tendremos piscina, desayuno americano y un sancocho para el almuerzo.
+                        </p>
+                        <p className="overnight-info-title" style={{ marginTop: '0.75rem' }}>Checklist para tu maleta:</p>
+                        <ul className="overnight-checklist">
+                          <li>Cobija y toalla</li>
+                          <li>Vestido de baño</li>
+                          <li>Artículos personales</li>
+                        </ul>
+                      </div>
                       <div className="attendance-toggle group-toggle">
                         <button
                           type="button"

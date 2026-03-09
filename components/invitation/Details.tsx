@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaGem } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaClock, FaGem, FaEnvelopeOpenText } from 'react-icons/fa';
 import './Details.css';
 
 interface DetailsProps {
@@ -50,13 +50,13 @@ const Details = ({ ceremonyTime, receptionTime, address, mapUrl, dressCode }: De
                         <h2 className="script-font detail-title">Cuándo</h2>
                         <div className="detail-content">
                             <div className="time-block">
-                                <span className="time-label sans-font">Ceremonia</span>
-                                <span className="time-value">{ceremonyTime}</span>
+                                <span className="time-label sans-font">Llegada al lugar</span>
+                                <span className="time-value">{receptionTime}</span>
                             </div>
                             <div className="time-separator"></div>
                             <div className="time-block">
-                                <span className="time-label sans-font">Recepción</span>
-                                <span className="time-value">{receptionTime}</span>
+                                <span className="time-label sans-font">Ceremonia</span>
+                                <span className="time-value">{ceremonyTime}</span>
                             </div>
                         </div>
                     </motion.div>
@@ -90,6 +90,19 @@ const Details = ({ ceremonyTime, receptionTime, address, mapUrl, dressCode }: De
                             <p className="dress-code-text">{dressCode}</p>
                             <p className="dress-code-subtext">
                                 Queremos verte lucir elegante en nuestra noche especial.
+                            </p>
+                        </div>
+                    </motion.div>
+
+                    {/* Lluvia de Sobres */}
+                    <motion.div className="detail-card glass-panel" variants={itemVariants}>
+                        <div className="icon-wrapper">
+                            <FaEnvelopeOpenText className="detail-icon" />
+                        </div>
+                        <h2 className="script-font detail-title">Lluvia de Sobres</h2>
+                        <div className="detail-content">
+                            <p className="dress-code-subtext">
+                                Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo, una lluvia de sobres será bienvenida.
                             </p>
                         </div>
                     </motion.div>

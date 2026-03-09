@@ -87,6 +87,24 @@ export async function PUT(
   return NextResponse.json(family);
 }
 
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
+  const { id } = await params;
+  const body = await request.json();
+
+  const family = await prisma.family.update({
+    where: { id },
+    data: { invitationSent: body.invitationSent },
+  });
+
+  return NextResponse.json(family);
+}
+
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

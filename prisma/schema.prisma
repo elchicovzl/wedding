@@ -23,6 +23,7 @@ model Family {
   groupAttending Boolean?
   drinkChoice    String?
   stayOvernight  Boolean?
+  invitationSent Boolean   @default(false)
   respondedAt    DateTime?
   createdAt      DateTime  @default(now())
   members        Member[]

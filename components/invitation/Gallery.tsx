@@ -3,36 +3,48 @@
 import { motion } from 'framer-motion';
 import './Gallery.css';
 
-const PHOTOS = [
+const MEDIA = [
   {
-    src: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop',
-    alt: 'Pareja en el campo',
+    src: '/images/gallery-4.jpg',
+    alt: 'Milena y Miguel',
     span: 'tall',
+    type: 'image' as const,
   },
   {
-    src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop',
+    src: '/images/gallery-2.jpg',
     alt: 'Momento especial',
     span: 'normal',
+    type: 'image' as const,
   },
   {
-    src: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop',
-    alt: 'Detalles de boda',
-    span: 'normal',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop',
+    src: '/images/gallery-1.jpg',
     alt: 'Juntos',
-    span: 'wide',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1529634597503-139d3726fed5?q=80&w=800&auto=format&fit=crop',
-    alt: 'Naturaleza y amor',
     span: 'normal',
+    type: 'image' as const,
   },
   {
-    src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop',
-    alt: 'Atardecer romántico',
+    src: '/images/gallery-video.mp4',
+    alt: 'Video',
+    span: 'wide',
+    type: 'video' as const,
+  },
+  {
+    src: '/images/gallery-3.jpg',
+    alt: 'Nuestra historia',
+    span: 'wide',
+    type: 'image' as const,
+  },
+  {
+    src: '/images/gallery-5.jpg',
+    alt: 'Amor',
     span: 'tall',
+    type: 'image' as const,
+  },
+  {
+    src: '/images/gallery-6.jpg',
+    alt: 'Milena y Miguel',
+    span: 'normal',
+    type: 'image' as const,
   },
 ];
 
@@ -52,21 +64,31 @@ const Gallery = () => {
         </motion.div>
 
         <div className="gallery-grid">
-          {PHOTOS.map((photo, index) => (
+          {MEDIA.map((item, index) => (
             <motion.div
               key={index}
-              className={`gallery-item gallery-item--${photo.span}`}
+              className={`gallery-item gallery-item--${item.span}`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <div className="gallery-img-wrap">
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  loading="lazy"
-                />
+                {item.type === 'video' ? (
+                  <video
+                    src={item.src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                  />
+                )}
               </div>
             </motion.div>
           ))}

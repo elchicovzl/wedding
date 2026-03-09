@@ -31,11 +31,11 @@ const weddingConfig = {
   groomName: "Miguel",
   weddingDate: "10 de Julio 2026",
   locationDetails: "San Jerónimo, Antioquia Colombia",
-  ceremonyTime: "16:00 HRS",
-  receptionTime: "18:00 HRS",
-  address: "Camino Real a Cholula 1234, C.P. 72810, Puebla, Pue.",
-  mapUrl: "https://maps.app.goo.gl/",
-  dressCode: "Formal",
+  ceremonyTime: "7:00 PM",
+  receptionTime: "6:00 PM",
+  address: "San Jerónimo, Antioquia — Sede Murano Mi Casa Campestre",
+  mapUrl: "https://maps.app.goo.gl/3HWc5nQ8htMcz2tG8?g_st=am",
+  dressCode: "Cóctel",
 };
 
 export default function InvitationPage({
@@ -46,7 +46,7 @@ export default function InvitationPage({
   previousResponse,
 }: InvitationPageProps) {
   return (
-    <div className="app-container">
+    <div className="app-container invitation-page">
       <Hero
         brideName={weddingConfig.brideName}
         groomName={weddingConfig.groomName}

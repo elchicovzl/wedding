@@ -2,15 +2,20 @@
 
 import { useEffect, useState } from "react";
 import {
-  FaUsers,
-  FaCheck,
-  FaClock,
-  FaTimes,
-  FaBed,
-  FaChild,
-  FaGlassCheers,
-  FaUserFriends,
-} from "react-icons/fa";
+  Users,
+  Check,
+  Clock,
+  X,
+  BedDouble,
+  Baby,
+  Wine,
+  UserCheck,
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Stats {
   totalFamilies: number;
@@ -70,10 +75,16 @@ export default function AdminDashboard() {
 
   if (loading || !stats) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#4F5D48] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-gray-400 text-sm">Cargando estadísticas...</p>
+      <div className="max-w-6xl space-y-8">
+        <Skeleton className="h-48 w-full rounded-2xl" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-28 rounded-xl" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Skeleton className="h-64 rounded-xl" />
+          <Skeleton className="h-64 rounded-xl" />
         </div>
       </div>
     );
@@ -87,8 +98,7 @@ export default function AdminDashboard() {
     {
       label: "Total Familias",
       value: stats.totalFamilies,
-      icon: FaUsers,
-      bg: "bg-blue-50",
+      icon: Users,
       iconBg: "bg-blue-100",
       iconColor: "text-blue-600",
       accent: "border-l-blue-500",
@@ -97,8 +107,7 @@ export default function AdminDashboard() {
       label: "Confirmadas",
       value: stats.confirmedFamilies,
       sub: `${stats.confirmedMembers} personas asisten`,
-      icon: FaCheck,
-      bg: "bg-emerald-50",
+      icon: Check,
       iconBg: "bg-emerald-100",
       iconColor: "text-emerald-600",
       accent: "border-l-emerald-500",
@@ -106,8 +115,7 @@ export default function AdminDashboard() {
     {
       label: "Pendientes",
       value: stats.pendingFamilies,
-      icon: FaClock,
-      bg: "bg-amber-50",
+      icon: Clock,
       iconBg: "bg-amber-100",
       iconColor: "text-amber-600",
       accent: "border-l-amber-500",
@@ -115,8 +123,7 @@ export default function AdminDashboard() {
     {
       label: "Declinadas",
       value: stats.declinedFamilies,
-      icon: FaTimes,
-      bg: "bg-red-50",
+      icon: X,
       iconBg: "bg-red-100",
       iconColor: "text-red-500",
       accent: "border-l-red-400",
@@ -125,8 +132,7 @@ export default function AdminDashboard() {
       label: "Hospedaje en Finca",
       value: stats.stayingOvernight,
       sub: `${stats.notStaying} no se quedan`,
-      icon: FaBed,
-      bg: "bg-violet-50",
+      icon: BedDouble,
       iconBg: "bg-violet-100",
       iconColor: "text-violet-600",
       accent: "border-l-violet-500",
@@ -135,8 +141,7 @@ export default function AdminDashboard() {
       label: "Invitados",
       value: stats.totalAdults + stats.totalChildren,
       sub: `${stats.totalAdults} adultos · ${stats.totalChildren} niños`,
-      icon: FaChild,
-      bg: "bg-indigo-50",
+      icon: Baby,
       iconBg: "bg-indigo-100",
       iconColor: "text-indigo-600",
       accent: "border-l-indigo-500",
@@ -146,11 +151,11 @@ export default function AdminDashboard() {
   return (
     <div className="max-w-6xl">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#4F5D48] to-[#6B7F62] rounded-2xl p-6 md:p-8 mb-8 text-white relative overflow-hidden">
+      <div className="bg-gradient-to-r from-[#4F5D48] to-[#6B7F62] rounded-2xl p-6! md:p-8 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-1/2 w-32 h-32 bg-white/5 rounded-full translate-y-1/2" />
         <div className="relative">
-          <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-1">
+          <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-1!">
             Panel de Administración
           </p>
           <h1
@@ -171,12 +176,10 @@ export default function AdminDashboard() {
                   {stats.respondedCount}/{stats.totalFamilies} familias
                 </span>
               </div>
-              <div className="w-full bg-white/20 rounded-full h-2.5">
-                <div
-                  className="bg-[#D4AF37] h-2.5 rounded-full transition-all duration-500"
-                  style={{ width: `${progressPct}%` }}
-                />
-              </div>
+              <Progress
+                value={progressPct}
+                className="**:data-[slot=progress-track]:h-2.5 **:data-[slot=progress-track]:bg-white/20 **:data-[slot=progress-indicator]:bg-[#D4AF37]"
+              />
             </div>
             <div className="text-right hidden sm:block">
               <p className="text-3xl font-bold">{progressPct}%</p>
@@ -187,181 +190,198 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <div className="mt-3! grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8!">
         {statCards.map((card) => (
-          <div
+          <Card
             key={card.label}
-            className={`${card.bg} rounded-xl p-5 border-l-4 ${card.accent} flex items-center gap-4 transition-shadow hover:shadow-md`}
+            className={`border-l-4 ${card.accent} shadow-sm border border-border transition-shadow hover:shadow-md`}
           >
-            <div
-              className={`${card.iconBg} ${card.iconColor} w-12 h-12 rounded-xl flex items-center justify-center shrink-0`}
-            >
-              <card.icon className="text-xl" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">
-                {card.label}
-              </p>
-              <p className="text-3xl font-bold text-gray-800 leading-tight">
-                {card.value}
-              </p>
-              {card.sub && (
-                <p className="text-xs text-gray-400 mt-0.5">{card.sub}</p>
-              )}
-            </div>
-          </div>
+            <CardContent className="flex items-center gap-4 p-5!">
+              <div
+                className={`${card.iconBg} ${card.iconColor} w-12 h-12 rounded-xl flex items-center justify-center shrink-0`}
+              >
+                <card.icon className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+                  {card.label}
+                </p>
+                <p className="text-3xl font-bold text-foreground leading-tight">
+                  {card.value}
+                </p>
+                {card.sub && (
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {card.sub}
+                  </p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Drinks Distribution */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <div className="flex items-center gap-2 mb-5">
-            <FaGlassCheers className="text-[#D4AF37]" />
-            <h2 className="text-base font-semibold text-gray-800">
+        <Card className="shadow-sm border border-border p-6!">
+          <CardHeader className="flex flex-row items-center gap-2 p-0!">
+            <Wine className="h-4 w-4 text-[#D4AF37]" />
+            <CardTitle className="text-base">
               Distribución de Bebidas
-            </h2>
-          </div>
-          {Object.keys(stats.drinkCounts).length === 0 ? (
-            <div className="text-center py-8">
-              <FaGlassCheers className="text-4xl text-gray-200 mx-auto mb-3" />
-              <p className="text-gray-400 text-sm">
-                Aún no hay selecciones de bebidas
-              </p>
-              <p className="text-gray-300 text-xs mt-1">
-                Las bebidas aparecerán cuando las familias confirmen
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {Object.entries(stats.drinkCounts)
-                .sort(([, a], [, b]) => b - a)
-                .map(([drink, count]) => {
-                  const total = Object.values(stats.drinkCounts).reduce(
-                    (a, b) => a + b,
-                    0
-                  );
-                  const pct = Math.round((count / total) * 100);
-                  const color = DRINK_COLORS[drink] || "#6B7280";
-                  return (
-                    <div key={drink}>
-                      <div className="flex justify-between text-sm mb-1.5">
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="w-3 h-3 rounded-full"
-                            style={{ backgroundColor: color }}
-                          />
-                          <span className="font-medium text-gray-700">
-                            {drink}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0!">
+            {Object.keys(stats.drinkCounts).length === 0 ? (
+              <div className="text-center py-8">
+                <Wine className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
+                <p className="text-muted-foreground text-sm">
+                  Aún no hay selecciones de bebidas
+                </p>
+                <p className="text-muted-foreground/60 text-xs mt-1">
+                  Las bebidas aparecerán cuando las familias confirmen
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {Object.entries(stats.drinkCounts)
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([drink, count]) => {
+                    const total = Object.values(stats.drinkCounts).reduce(
+                      (a, b) => a + b,
+                      0
+                    );
+                    const pct = Math.round((count / total) * 100);
+                    const color = DRINK_COLORS[drink] || "#6B7280";
+                    return (
+                      <div key={drink}>
+                        <div className="flex justify-between text-sm mb-1.5">
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: color }}
+                            />
+                            <span className="font-medium text-foreground">
+                              {drink}
+                            </span>
+                          </div>
+                          <span className="text-muted-foreground font-medium">
+                            {count}{" "}
+                            <span className="text-muted-foreground/60 font-normal">
+                              ({pct}%)
+                            </span>
                           </span>
                         </div>
-                        <span className="text-gray-500 font-medium">
-                          {count}{" "}
-                          <span className="text-gray-400 font-normal">
-                            ({pct}%)
-                          </span>
-                        </span>
+                        <div className="w-full bg-muted rounded-full h-2.5">
+                          <div
+                            className="h-2.5 rounded-full transition-all duration-500"
+                            style={{
+                              width: `${pct}%`,
+                              backgroundColor: color,
+                            }}
+                          />
+                        </div>
                       </div>
-                      <div className="w-full bg-gray-100 rounded-full h-2.5">
-                        <div
-                          className="h-2.5 rounded-full transition-all duration-500"
-                          style={{
-                            width: `${pct}%`,
-                            backgroundColor: color,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          )}
-        </div>
+                    );
+                  })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Recent Responses */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <div className="flex items-center gap-2 mb-5">
-            <FaUserFriends className="text-[#4F5D48]" />
-            <h2 className="text-base font-semibold text-gray-800">
-              Respuestas Recientes
-            </h2>
-          </div>
-          {stats.recentResponses.length === 0 ? (
-            <div className="text-center py-8">
-              <FaUserFriends className="text-4xl text-gray-200 mx-auto mb-3" />
-              <p className="text-gray-400 text-sm">Aún no hay respuestas</p>
-              <p className="text-gray-300 text-xs mt-1">
-                Las respuestas aparecerán aquí en tiempo real
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-1">
-              {stats.recentResponses.map((r) => (
-                <div
-                  key={r.name}
-                  className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  {/* Avatar */}
+        <Card className="shadow-sm border border-border p-6!">
+          <CardHeader className="flex flex-row items-center gap-2 p-0!">
+            <UserCheck className="h-4 w-4 text-[#4F5D48]" />
+            <CardTitle className="text-base">Respuestas Recientes</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0!">
+            {stats.recentResponses.length === 0 ? (
+              <div className="text-center py-8">
+                <UserCheck className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
+                <p className="text-muted-foreground text-sm">
+                  Aún no hay respuestas
+                </p>
+                <p className="text-muted-foreground/60 text-xs mt-1">
+                  Las respuestas aparecerán aquí en tiempo real
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-1">
+                {stats.recentResponses.map((r) => (
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${
-                      r.groupAttending
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-red-100 text-red-600"
-                    }`}
+                    key={r.name}
+                    className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-muted transition-colors"
                   >
-                    {getInitials(r.name)}
-                  </div>
+                    {/* Avatar */}
+                    <Avatar
+                      className={
+                        r.groupAttending
+                          ? "bg-emerald-100"
+                          : "bg-red-100"
+                      }
+                    >
+                      <AvatarFallback
+                        className={
+                          r.groupAttending
+                            ? "bg-emerald-100 text-emerald-700 text-xs font-bold"
+                            : "bg-red-100 text-red-600 text-xs font-bold"
+                        }
+                      >
+                        {getInitials(r.name)}
+                      </AvatarFallback>
+                    </Avatar>
 
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-700 truncate">
-                      {r.name}
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      {new Date(r.respondedAt).toLocaleDateString("es-CO", {
-                        day: "numeric",
-                        month: "short",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                  </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {r.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(r.respondedAt).toLocaleDateString("es-CO", {
+                          day: "numeric",
+                          month: "short",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
 
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    {r.groupAttending ? (
-                      <>
-                        <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-medium border border-emerald-200">
-                          {r.confirmedCount}/{r.totalMembers}
-                        </span>
-                        {r.drinkChoice && (
-                          <span
-                            className="text-xs px-2.5 py-1 rounded-full font-medium border"
-                            style={{
-                              backgroundColor:
-                                (DRINK_COLORS[r.drinkChoice] || "#6B7280") +
-                                "15",
-                              color:
-                                DRINK_COLORS[r.drinkChoice] || "#6B7280",
-                              borderColor:
-                                (DRINK_COLORS[r.drinkChoice] || "#6B7280") +
-                                "30",
-                            }}
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {r.groupAttending ? (
+                        <>
+                          <Badge
+                            variant="outline"
+                            className="bg-emerald-50 text-emerald-700 border-emerald-200"
                           >
-                            {r.drinkChoice}
-                          </span>
-                        )}
-                      </>
-                    ) : (
-                      <span className="text-xs bg-red-50 text-red-600 px-2.5 py-1 rounded-full font-medium border border-red-200">
-                        No asiste
-                      </span>
-                    )}
+                            {r.confirmedCount}/{r.totalMembers}
+                          </Badge>
+                          {r.drinkChoice && (
+                            <Badge
+                              variant="outline"
+                              style={{
+                                backgroundColor:
+                                  (DRINK_COLORS[r.drinkChoice] || "#6B7280") +
+                                  "15",
+                                color:
+                                  DRINK_COLORS[r.drinkChoice] || "#6B7280",
+                                borderColor:
+                                  (DRINK_COLORS[r.drinkChoice] || "#6B7280") +
+                                  "30",
+                              }}
+                            >
+                              {r.drinkChoice}
+                            </Badge>
+                          )}
+                        </>
+                      ) : (
+                        <Badge variant="destructive">No asiste</Badge>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

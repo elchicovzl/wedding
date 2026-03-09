@@ -2,18 +2,60 @@
 
 import { useEffect, useState, useCallback } from "react";
 import {
-  FaPlus,
-  FaEdit,
-  FaTrash,
-  FaCopy,
-  FaCheck,
-  FaClock,
-  FaTimes,
-  FaSearch,
-  FaLink,
-  FaUsers,
-  FaChild,
-} from "react-icons/fa";
+  Plus,
+  Pencil,
+  Trash2,
+  Copy,
+  Check,
+  Clock,
+  X,
+  Search,
+  Link,
+  Users,
+  Baby,
+  MoreHorizontal,
+  Send,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Member {
   id: string;
@@ -31,6 +73,7 @@ interface Family {
   groupAttending: boolean | null;
   drinkChoice: string | null;
   stayOvernight: boolean | null;
+  invitationSent: boolean;
   respondedAt: string | null;
   members: Member[];
 }
@@ -155,6 +198,19 @@ export default function FamiliesPage() {
     fetchFamilies();
   };
 
+  const toggleInvitationSent = async (id: string, current: boolean) => {
+    await fetch(`/api/families/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ invitationSent: !current }),
+    });
+    setFamilies((prev) =>
+      prev.map((f) =>
+        f.id === id ? { ...f, invitationSent: !current } : f
+      )
+    );
+  };
+
   const handleDelete = async (id: string) => {
     await fetch(`/api/families/${id}`, { method: "DELETE" });
     setDeleteConfirm(null);
@@ -164,32 +220,53 @@ export default function FamiliesPage() {
   const getStatusBadge = (family: Family) => {
     if (family.respondedAt === null) {
       return (
-        <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full border border-amber-200">
-          <FaClock className="text-[10px]" /> Pendiente
-        </span>
+        <Badge variant="outline" className="bg-amber-50 p-2! text-amber-700 border-amber-200">
+          <Clock className="h-3 w-3 mr-1" /> Pendiente
+        </Badge>
       );
     }
     if (family.groupAttending) {
       return (
-        <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full border border-emerald-200">
-          <FaCheck className="text-[10px]" /> Confirmada
-        </span>
+        <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
+          <Check className="h-3 w-3 mr-1" /> Confirmada
+        </Badge>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-red-50 text-red-600 px-2.5 py-1 rounded-full border border-red-200">
-        <FaTimes className="text-[10px]" /> Declinada
-      </span>
+      <Badge variant="outline" className="bg-red-50 text-red-600 border-red-200">
+        <X className="h-3 w-3 mr-1" /> Declinada
+      </Badge>
     );
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#4F5D48] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-gray-400 text-sm">Cargando familias...</p>
+      <div className="max-w-10! mx-auto p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-4 w-64" />
+          </div>
+          <Skeleton className="h-10 w-36" />
         </div>
+        <div className="flex gap-4">
+          <Skeleton className="h-10 w-80" />
+          <Skeleton className="h-10 w-64" />
+        </div>
+        <Card className="p-0!">
+          <CardContent className="p-0!">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-4 p-4! border-b border-border last:border-0">
+                <Skeleton className="h-5 w-36" />
+                <Skeleton className="h-5 w-48" />
+                <Skeleton className="h-6 w-24" />
+                <Skeleton className="h-5 w-16" />
+                <Skeleton className="h-5 w-12" />
+                <Skeleton className="h-8 w-8 rounded-md" />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -197,368 +274,335 @@ export default function FamiliesPage() {
   return (
     <div className="max-w-6xl mx-auto" style={{ padding: "1rem 1.5rem" }}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8!">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Familias</h1>
-          <div className="flex items-center gap-3 mt-1.5 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-foreground">Familias</h1>
+          <div className="flex items-center gap-3 mt-1.5! text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-1">
-              <FaUsers className="text-xs" /> {families.length} familias
+              <Users className="h-3.5 w-3.5" /> {families.length} familias
             </span>
-            <span className="text-gray-300">|</span>
+            <span className="text-border">|</span>
             <span>{totalMembers} invitados</span>
-            <span className="text-gray-300">|</span>
+            <span className="text-border">|</span>
             <span className="inline-flex items-center gap-1">
-              <FaChild className="text-xs" /> {totalChildren} niños
+              <Baby className="h-3.5 w-3.5" /> {totalChildren} niños
             </span>
           </div>
         </div>
-        <button
-          onClick={openCreateForm}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#4F5D48] text-white rounded-xl hover:bg-[#3d4a38] transition-all hover:shadow-md text-sm font-medium"
-        >
-          <FaPlus className="text-xs" /> Nueva Familia
-        </button>
+        <Button className="p-3!" onClick={openCreateForm}>
+          <Plus className="h-4 w-4 mr-2" /> Nueva Familia
+        </Button>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6 py-1">
+      {/* Filters & Search */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6! items-start sm:items-center">
         <div className="relative flex-1 max-w-md">
-          <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
-          <input
-            type="text"
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
             placeholder="Buscar por nombre de familia..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#4F5D48]/20 focus:border-[#4F5D48] transition-all"
+            className="pl-9! h-10!"
           />
         </div>
-        <div className="flex flex-wrap gap-2">
-          {(
-            [
+        <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)}>
+          <TabsList className="h-10! p-2!">
+            {([
               { key: "all", label: "Todas" },
               { key: "confirmed", label: "Confirmadas" },
               { key: "pending", label: "Pendientes" },
               { key: "declined", label: "Declinadas" },
-            ] as const
-          ).map((f) => (
-            <button
-              key={f.key}
-              onClick={() => setFilter(f.key)}
-              className={`px-3.5 py-2 text-xs font-medium rounded-xl transition-all ${
-                filter === f.key
-                  ? "bg-[#4F5D48] text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
-              }`}
-            >
-              {f.label}{" "}
-              <span
-                className={
-                  filter === f.key ? "text-white/60" : "text-gray-400"
-                }
-              >
-                {filterCounts[f.key]}
-              </span>
-            </button>
-          ))}
-        </div>
+            ] as const).map((f) => (
+              <TabsTrigger key={f.key} value={f.key} className="gap-1.5 px-3! py-1.5! text-sm!">
+                {f.label}
+                <Badge variant="secondary" className="ml-0.5 px-1.5! py-0 text-[10px] font-semibold h-5 min-w-5 flex items-center justify-center">
+                  {filterCounts[f.key]}
+                </Badge>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-gray-50/80 border-b border-gray-100">
-                <th className="text-left px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wider">
-                  Familia
-                </th>
-                <th className="text-left px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wider">
-                  Integrantes
-                </th>
-                <th className="text-center px-4 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wider">
-                  Estado
-                </th>
-                <th className="text-center px-4 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wider">
-                  Bebida
-                </th>
-                <th className="text-center px-4 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wider">
-                  Finca
-                </th>
-                <th className="text-center px-4 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wider">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredFamilies.map((family, idx) => (
-                <tr
-                  key={family.id}
-                  className={`border-b border-gray-50 hover:bg-blue-50/30 transition-colors ${
-                    idx % 2 === 1 ? "bg-gray-50/30" : ""
-                  }`}
-                >
+      <Card className="shadow-sm border border-border p-0!">
+        <CardContent className="p-0! overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="pl-5!">Familia</TableHead>
+                <TableHead>Integrantes</TableHead>
+                <TableHead className="text-center">Enviada</TableHead>
+                <TableHead className="text-center">Estado</TableHead>
+                <TableHead className="text-center">Bebida</TableHead>
+                <TableHead className="text-center">Finca</TableHead>
+                <TableHead className="text-center w-[60px] pr-3!">Acciones</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredFamilies.map((family) => (
+                <TableRow key={family.id}>
                   {/* Family Name + Code */}
-                  <td className="px-5 py-4">
-                    <p className="font-semibold text-gray-800 text-sm">
+                  <TableCell className="pl-5!">
+                    <p className="font-semibold text-foreground text-sm">
                       {family.name}
                     </p>
                     <div className="flex items-center gap-1 mt-1">
-                      <FaLink className="text-[9px] text-gray-300" />
-                      <code className="text-[11px] text-gray-400 font-mono">
+                      <Link className="h-3 w-3 text-muted-foreground/40" />
+                      <code className="text-[11px] text-muted-foreground font-mono">
                         {family.inviteCode}
                       </code>
-                      <span className="text-gray-300 mx-1">·</span>
-                      <span className="text-[11px] text-gray-400">
+                      <span className="text-muted-foreground/30 mx-1">·</span>
+                      <span className="text-[11px] text-muted-foreground">
                         {family.totalSlots} cupos
                       </span>
                     </div>
-                  </td>
+                  </TableCell>
 
                   {/* Members */}
-                  <td className="px-5 py-4">
-                    <div className="flex flex-wrap gap-1.5 max-w-sm">
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1.5! max-w-sm">
                       {family.members.map((m) => (
-                        <span
+                        <Badge
                           key={m.id}
-                          className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-md font-medium ${
+                          variant="outline"
+                          className={`text-xs font-medium ${
                             m.attending === true
-                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                               : m.attending === false
-                                ? "bg-red-50 text-red-400 border border-red-200 line-through"
-                                : "bg-gray-50 text-gray-600 border border-gray-200"
+                                ? "bg-red-50 text-red-400 border-red-200 line-through"
+                                : "bg-muted text-muted-foreground"
                           }`}
                         >
                           {m.name}
                           {m.isChild && (
-                            <FaChild className="text-[9px] opacity-50" />
+                            <Baby className="h-3 w-3 ml-0.5 opacity-50" />
                           )}
-                        </span>
+                        </Badge>
                       ))}
                     </div>
-                  </td>
+                  </TableCell>
+
+                  {/* Invitation Sent */}
+                  <TableCell className="text-center">
+                    <button
+                      onClick={() => toggleInvitationSent(family.id, family.invitationSent)}
+                      className="inline-flex items-center justify-center"
+                      title={family.invitationSent ? "Marcar como no enviada" : "Marcar como enviada"}
+                    >
+                      {family.invitationSent ? (
+                        <Send className="h-4 w-4 text-emerald-500" />
+                      ) : (
+                        <Send className="h-4 w-4 text-muted-foreground/30" />
+                      )}
+                    </button>
+                  </TableCell>
 
                   {/* Status */}
-                  <td className="px-4 py-4 text-center">
+                  <TableCell className="text-center">
                     {getStatusBadge(family)}
-                  </td>
+                  </TableCell>
 
                   {/* Drink */}
-                  <td className="px-4 py-4 text-center">
+                  <TableCell className="text-center">
                     {family.drinkChoice ? (
-                      <span className="text-xs font-medium text-gray-700 bg-gray-50 px-2.5 py-1 rounded-full border border-gray-200">
+                      <Badge variant="secondary" className="font-medium">
                         {family.drinkChoice}
-                      </span>
+                      </Badge>
                     ) : (
-                      <span className="text-gray-300">—</span>
+                      <span className="text-muted-foreground/40">—</span>
                     )}
-                  </td>
+                  </TableCell>
 
                   {/* Overnight */}
-                  <td className="px-4 py-4 text-center">
+                  <TableCell className="text-center">
                     {family.stayOvernight === null ? (
-                      <span className="text-gray-300">—</span>
+                      <span className="text-muted-foreground/40">—</span>
                     ) : family.stayOvernight ? (
-                      <span className="text-xs font-medium text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full border border-violet-200">
+                      <Badge variant="outline" className="bg-violet-50 text-violet-600 border-violet-200 font-medium">
                         Sí
-                      </span>
+                      </Badge>
                     ) : (
-                      <span className="text-xs text-gray-400">No</span>
+                      <span className="text-xs text-muted-foreground">No</span>
                     )}
-                  </td>
+                  </TableCell>
 
                   {/* Actions */}
-                  <td className="px-4 py-4">
-                    <div className="flex items-center justify-center gap-0.5">
-                      <button
-                        onClick={() =>
-                          copyLink(family.inviteCode, family.id)
-                        }
-                        className="p-2.5 text-gray-400 hover:text-[#4F5D48] hover:bg-[#4F5D48]/5 rounded-lg transition-all"
-                        title="Copiar link de invitación"
-                      >
-                        {copiedId === family.id ? (
-                          <FaCheck className="text-emerald-500" />
-                        ) : (
-                          <FaCopy />
-                        )}
-                      </button>
-                      <button
-                        onClick={() => openEditForm(family)}
-                        className="p-2.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                        title="Editar familia"
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        onClick={() => setDeleteConfirm(family.id)}
-                        className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-                        title="Eliminar familia"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                  <TableCell className="text-center p-3!">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="p-4!" align="end">
+                        <DropdownMenuItem onClick={() => copyLink(family.inviteCode, family.id)}>
+                          {copiedId === family.id ? (
+                            <Check className="h-4 w-4 mr-2 text-emerald-500" />
+                          ) : (
+                            <Copy className="h-4 w-4 mr-2" />
+                          )}
+                          {copiedId === family.id ? "Copiado!" : "Copiar link"}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEditForm(family)}>
+                          <Pencil className="h-4 w-4 mr-2" /> Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => setDeleteConfirm(family.id)}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4 mr-2" /> Eliminar
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
 
-        {filteredFamilies.length === 0 && (
-          <div className="text-center py-12">
-            <FaSearch className="text-3xl text-gray-200 mx-auto mb-3" />
-            <p className="text-gray-400 text-sm">
-              No se encontraron familias
-            </p>
-            <p className="text-gray-300 text-xs mt-1">
-              Intenta ajustar los filtros o la búsqueda
-            </p>
-          </div>
-        )}
-      </div>
+          {filteredFamilies.length === 0 && (
+            <div className="text-center py-12">
+              <Search className="h-8 w-8 text-muted-foreground/20 mx-auto mb-3" />
+              <p className="text-muted-foreground text-sm">
+                No se encontraron familias
+              </p>
+              <p className="text-muted-foreground/60 text-xs mt-1">
+                Intenta ajustar los filtros o la búsqueda
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
-      <p className="text-xs text-gray-400 mt-3 text-right">
+      <p className="text-xs text-muted-foreground mt-3! text-right">
         Mostrando {filteredFamilies.length} de {families.length} familias
       </p>
 
-      {/* Create/Edit Modal */}
-      {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-800">
-                {editingId ? "Editar Familia" : "Nueva Familia"}
-              </h2>
-              <button
-                onClick={() => setShowForm(false)}
-                className="text-gray-400 hover:text-gray-600 p-1"
-              >
-                <FaTimes />
-              </button>
+      {/* Create/Edit Dialog */}
+      <Dialog open={showForm} onOpenChange={setShowForm}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="p-3!">
+              {editingId ? "Editar Familia" : "Nueva Familia"}
+            </DialogTitle>
+            <DialogDescription className="px-3!">
+              {editingId
+                ? "Modifica los datos de la familia."
+                : "Agrega una nueva familia con sus integrantes."}
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="space-y-5! p-3!">
+            <div className="space-y-2!">
+              <Label htmlFor="familyName">Nombre del grupo / familia</Label>
+              <Input
+                id="familyName"
+                value={formName}
+                onChange={(e) => setFormName(e.target.value)}
+                placeholder="Ej: Familia García - López"
+                required
+              />
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Nombre del grupo / familia
-                </label>
-                <input
-                  type="text"
-                  value={formName}
-                  onChange={(e) => setFormName(e.target.value)}
-                  placeholder="Ej: Familia García - López"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#4F5D48]/20 focus:border-[#4F5D48]"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Integrantes
-                </label>
-                <div className="space-y-2">
-                  {formMembers.map((member, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 bg-gray-50 p-2.5 rounded-xl"
-                    >
-                      <input
-                        type="text"
-                        value={member.name}
-                        onChange={(e) =>
-                          updateMember(index, "name", e.target.value)
+            <div className="space-y-2">
+              <Label>Integrantes</Label>
+              <div className="space-y-2 gap-2">
+                {formMembers.map((member, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 bg-muted p-2.5! mb-2! rounded-lg"
+                  >
+                    <Input
+                      value={member.name}
+                      onChange={(e) =>
+                        updateMember(index, "name", e.target.value)
+                      }
+                      placeholder="Nombre del integrante"
+                      className="flex-1"
+                    />
+                    <div className="flex items-center gap-1.5 bg-background px-3! py-2! rounded-md border border-border">
+                      <Checkbox
+                        id={`child-${index}`}
+                        checked={member.isChild}
+                        onCheckedChange={(checked) =>
+                          updateMember(index, "isChild", !!checked)
                         }
-                        placeholder="Nombre del integrante"
-                        className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4F5D48]/20 focus:border-[#4F5D48]"
                       />
-                      <label className="flex items-center gap-1.5 text-xs text-gray-500 whitespace-nowrap cursor-pointer select-none bg-white px-3 py-2 rounded-lg border border-gray-200">
-                        <input
-                          type="checkbox"
-                          checked={member.isChild}
-                          onChange={(e) =>
-                            updateMember(index, "isChild", e.target.checked)
-                          }
-                          className="rounded accent-[#4F5D48]"
-                        />
+                      <Label
+                        htmlFor={`child-${index}`}
+                        className="text-xs whitespace-nowrap cursor-pointer"
+                      >
                         Niño/a
-                      </label>
-                      {formMembers.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeMember(index)}
-                          className="text-red-400 hover:text-red-600 p-2 hover:bg-red-50 rounded-lg transition-colors"
-                        >
-                          <FaTimes className="text-xs" />
-                        </button>
-                      )}
+                      </Label>
                     </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={addMember}
-                  className="mt-3 text-sm text-[#4F5D48] hover:text-[#3d4a38] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-[#4F5D48]/5 transition-colors"
-                >
-                  <FaPlus className="text-xs" /> Agregar integrante
-                </button>
+                    {formMembers.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeMember(index)}
+                        className="h-8 w-8 text-destructive hover:text-destructive"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
               </div>
-
-              <div className="flex justify-end gap-3 pt-5 border-t border-gray-100">
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="px-5 py-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-xl font-medium transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-5 py-2.5 text-sm bg-[#4F5D48] text-white rounded-xl hover:bg-[#3d4a38] disabled:opacity-50 font-medium transition-all hover:shadow-md"
-                >
-                  {saving
-                    ? "Guardando..."
-                    : editingId
-                      ? "Actualizar"
-                      : "Crear Familia"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation */}
-      {deleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
-            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FaTrash className="text-red-500" />
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={addMember}
+                className="text-primary"
+              >
+                <Plus className="h-4 w-4 mr-1.5" /> Agregar integrante
+              </Button>
             </div>
-            <h3 className="text-lg font-bold text-gray-800 text-center mb-2">
-              ¿Eliminar familia?
-            </h3>
-            <p className="text-sm text-gray-500 text-center mb-6">
-              Esta acción no se puede deshacer. Se eliminarán todos los datos
-              y la invitación de esta familia.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setDeleteConfirm(null)}
-                className="flex-1 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-xl font-medium transition-colors border border-gray-200"
+
+            <DialogFooter className="p-3!">
+              <Button
+                className="p-3!"
+                type="button"
+                variant="outline"
+                onClick={() => setShowForm(false)}
               >
                 Cancelar
-              </button>
-              <button
-                onClick={() => handleDelete(deleteConfirm)}
-                className="flex-1 px-4 py-2.5 text-sm bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-all"
-              >
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              </Button>
+              <Button className="p-3!" type="submit" disabled={saving}>
+                {saving
+                  ? "Guardando..."
+                  : editingId
+                    ? "Actualizar"
+                    : "Crear Familia"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation */}
+      <AlertDialog
+        open={!!deleteConfirm}
+        onOpenChange={(open) => !open && setDeleteConfirm(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Eliminar familia?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción no se puede deshacer. Se eliminarán todos los datos y
+              la invitación de esta familia.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteConfirm && handleDelete(deleteConfirm)}
+              className="bg-destructive text-white hover:bg-destructive/90"
+            >
+              Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
