@@ -32,7 +32,7 @@ export default function Home() {
           marginBottom: "2rem",
         }}
       >
-        10 de Julio 2026
+        Viernes, 10 de Julio 2026
       </p>
       <p style={{ color: "var(--color-text-muted)", maxWidth: "400px" }}>
         Esta invitación requiere un enlace personalizado. Por favor, utiliza el

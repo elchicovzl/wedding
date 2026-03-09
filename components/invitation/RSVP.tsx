@@ -297,7 +297,7 @@ const RSVP = ({
                           Para quienes deseen evitar el viaje de regreso y disfrutar con nosotros el día siguiente, la finca ofrece habitaciones sencillas de descanso.
                         </p>
                         <p style={{ marginTop: '0.5rem' }}>
-                          <strong>Domingo de amigos:</strong> Tendremos piscina, desayuno americano y un sancocho para el almuerzo.
+                          <strong>Sabado de amigos:</strong> Tendremos piscina, desayuno americano y un sancocho para el almuerzo.
                         </p>
                         <p className="overnight-info-title" style={{ marginTop: '0.75rem' }}>Checklist para tu maleta:</p>
                         <ul className="overnight-checklist">

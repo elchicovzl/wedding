@@ -29,7 +29,7 @@ interface InvitationPageProps {
 const weddingConfig = {
   brideName: "Milena",
   groomName: "Miguel",
-  weddingDate: "10 de Julio 2026",
+  weddingDate: "Viernes, 10 de Julio 2026",
   locationDetails: "San Jerónimo, Antioquia Colombia",
   ceremonyTime: "7:00 PM",
   receptionTime: "6:00 PM",
@@ -54,6 +54,8 @@ export default function InvitationPage({
         locationDetails={weddingConfig.locationDetails}
       />
 
+      <Gallery />
+
       <Details
         ceremonyTime={weddingConfig.ceremonyTime}
         receptionTime={weddingConfig.receptionTime}
@@ -73,8 +75,6 @@ export default function InvitationPage({
           </span>
         </div>
       </div>
-
-      <Gallery />
 
       <RSVP
         familyName={familyName}

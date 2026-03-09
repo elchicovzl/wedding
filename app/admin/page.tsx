@@ -165,7 +165,7 @@ export default function AdminDashboard() {
             Milena & Miguel
           </h1>
           <p className="text-white/70 text-sm">
-            10 de Julio 2026 — San Jerónimo, Antioquia
+            Viernes, 10 de Julio 2026 — San Jerónimo, Antioquia
           </p>
 
           <div className="mt-6 flex items-center gap-4">
