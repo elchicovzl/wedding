@@ -233,7 +233,7 @@ const Hero = ({ brideName, groomName, weddingDate, locationDetails }: HeroProps)
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
         >
-          <span>{brideName}</span>
+          <span>{groomName}</span>
           <span className="name-separator">
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
@@ -242,7 +242,7 @@ const Hero = ({ brideName, groomName, weddingDate, locationDetails }: HeroProps)
               <FaHeart className="heart-icon" />
             </motion.div>
           </span>
-          <span>{groomName}</span>
+          <span>{brideName}</span>
         </motion.div>
 
         <motion.div

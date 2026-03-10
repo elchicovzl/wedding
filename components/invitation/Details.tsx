@@ -89,7 +89,7 @@ const Details = ({ ceremonyTime, receptionTime, address, mapUrl, dressCode }: De
                         <div className="detail-content">
                             <p className="dress-code-text">{dressCode}</p>
                             <p className="dress-code-subtext">
-                                Queremos verte lucir elegante en nuestra noche especial.
+                                Queremos verte lucir elegante en nuestra noche especial, Sugerencia traje oscuro.
                             </p>
                         </div>
                     </motion.div>
