@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
 const MEDIA = [
@@ -55,10 +56,46 @@ const MEDIA = [
     alt: 'Bailando',
     span: 'wide',
   },
+  {
+    src: '/images/gallery-11.jpg',
+    alt: 'Jair y Yaneth',
+    span: 'normal',
+  },
 ];
 
 const Gallery = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const videoBlockRef = useRef<HTMLDivElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+
+  // Sound starts ON: the play tap is the user gesture browsers require
+  const handlePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = isMuted;
+    video.play();
+    setIsPlaying(true);
+  };
+
+  const togglePause = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+      setIsPlaying(true);
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
+  };
 
   // Cinematic reveal: the video grows and sharpens as it scrolls into view
   const { scrollYProgress } = useScroll({
@@ -92,16 +129,33 @@ const Gallery = () => {
           }}
         >
           <div className="gallery-img-wrap">
-            {/* No autoplay: the tap on play is the user gesture browsers
-                require, so it starts WITH sound; it also keeps the 20MB
-                download from competing with the photos on page load */}
             <video
+              ref={videoRef}
               src="/images/gallery-video.mp4"
               poster="/images/gallery-video-poster.jpg"
-              controls
               preload="metadata"
               playsInline
+              onClick={isPlaying ? togglePause : handlePlay}
+              onEnded={() => setIsPlaying(false)}
             />
+            {!isPlaying && (
+              <button
+                onClick={handlePlay}
+                className="video-play-btn"
+                aria-label="Reproducir video"
+              >
+                <FaPlay />
+              </button>
+            )}
+            {isPlaying && (
+              <button
+                onClick={toggleMute}
+                className="video-mute-btn"
+                aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
+              >
+                {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+              </button>
+            )}
           </div>
         </motion.div>
 
