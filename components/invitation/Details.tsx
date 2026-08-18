@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaGem, FaEnvelopeOpenText } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaClock, FaGem, FaEnvelopeOpenText, FaBus } from 'react-icons/fa';
 import './Details.css';
 
 interface DetailsProps {
@@ -89,8 +89,24 @@ const Details = ({ ceremonyTime, receptionTime, address, mapUrl, dressCode }: De
                         <div className="detail-content">
                             <p className="dress-code-text">{dressCode}</p>
                             <p className="dress-code-subtext">
-                                Queremos verte lucir elegante en nuestra noche especial.
+                                Por tratarse de una ocasión tan especial, les pedimos amablemente no utilizar vestidos o prendas en color blanco, marfil, beige muy claro o tonos similares, reservados para la novia. Tampoco ropa informal o jeans.
                             </p>
+                        </div>
+                    </motion.div>
+
+                    {/* Transporte */}
+                    <motion.div className="detail-card glass-panel" variants={itemVariants}>
+                        <div className="icon-wrapper">
+                            <FaBus className="detail-icon" />
+                        </div>
+                        <h2 className="script-font detail-title">Transporte</h2>
+                        <div className="detail-content">
+                            <p className="dress-code-subtext">
+                                Para facilitar su llegada y regreso, tendremos la opción de transporte con un punto de encuentro hacia el lugar de la celebración. Si necesitas transporte, por favor indícalo al confirmar tu asistencia.
+                            </p>
+                            <a href="#rsvp" className="btn btn-outline map-btn">
+                                Solicitar Transporte
+                            </a>
                         </div>
                     </motion.div>
 
@@ -102,7 +118,12 @@ const Details = ({ ceremonyTime, receptionTime, address, mapUrl, dressCode }: De
                         <h2 className="script-font detail-title">Lluvia de Sobres</h2>
                         <div className="detail-content">
                             <p className="dress-code-subtext">
-                                Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo, una lluvia de sobres será bienvenida.
+                                Si desean tener un detalle con nosotros, hemos dispuesto la opción de lluvia de sobres, que podrá realizarse de manera física el día de la boda o mediante transferencia a esta cuenta:
+                            </p>
+                            <p className="dress-code-text" style={{ marginTop: '0.75rem' }}>
+                                Cta. Ahorros Bancolombia
+                                <br />
+                                34278341307
                             </p>
                         </div>
                     </motion.div>

@@ -6,9 +6,8 @@ import {
   Check,
   Clock,
   X,
-  BedDouble,
+  Bus,
   Baby,
-  Wine,
   UserCheck,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,28 +26,17 @@ interface Stats {
   confirmedMembers: number;
   declinedFamilies: number;
   pendingFamilies: number;
-  stayingOvernight: number;
-  notStaying: number;
-  drinkCounts: Record<string, number>;
+  needTransport: number;
+  noTransport: number;
   recentResponses: Array<{
     name: string;
     groupAttending: boolean | null;
-    drinkChoice: string | null;
-    stayOvernight: boolean | null;
+    needsTransport: boolean | null;
     respondedAt: string;
     confirmedCount: number;
     totalMembers: number;
   }>;
 }
-
-const DRINK_COLORS: Record<string, string> = {
-  Cerveza: "#F59E0B",
-  Guaro: "#10B981",
-  Ron: "#8B5CF6",
-  Whisky: "#EF4444",
-  Vino: "#EC4899",
-  Agua: "#3B82F6",
-};
 
 function getInitials(name: string) {
   return name
@@ -129,10 +117,10 @@ export default function AdminDashboard() {
       accent: "border-l-red-400",
     },
     {
-      label: "Hospedaje en Finca",
-      value: stats.stayingOvernight,
-      sub: `${stats.notStaying} no se quedan`,
-      icon: BedDouble,
+      label: "Necesitan Transporte",
+      value: stats.needTransport,
+      sub: `${stats.noTransport} llegan por su cuenta`,
+      icon: Bus,
       iconBg: "bg-violet-100",
       iconColor: "text-violet-600",
       accent: "border-l-violet-500",
@@ -151,7 +139,7 @@ export default function AdminDashboard() {
   return (
     <div className="max-w-6xl">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#4F5D48] to-[#6B7F62] rounded-2xl p-6! md:p-8 text-white relative overflow-hidden">
+      <div className="bg-gradient-to-r from-[#7B5138] to-[#A9805B] rounded-2xl p-6! md:p-8 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-1/2 w-32 h-32 bg-white/5 rounded-full translate-y-1/2" />
         <div className="relative">
@@ -162,10 +150,10 @@ export default function AdminDashboard() {
             className="text-3xl md:text-4xl mb-1"
             style={{ fontFamily: "'Great Vibes', cursive" }}
           >
-            Milena & Miguel
+            Jair & Yaneth
           </h1>
           <p className="text-white/70 text-sm">
-            Viernes, 10 de Julio 2026 — San Jerónimo, Antioquia
+            Viernes, 16 de Octubre 2026 — Llanogrande, El Retiro, Antioquia
           </p>
 
           <div className="mt-6 flex items-center gap-4">
@@ -178,7 +166,7 @@ export default function AdminDashboard() {
               </div>
               <Progress
                 value={progressPct}
-                className="**:data-[slot=progress-track]:h-2.5 **:data-[slot=progress-track]:bg-white/20 **:data-[slot=progress-indicator]:bg-[#D4AF37]"
+                className="**:data-[slot=progress-track]:h-2.5 **:data-[slot=progress-track]:bg-white/20 **:data-[slot=progress-indicator]:bg-[#C9A87C]"
               />
             </div>
             <div className="text-right hidden sm:block">
@@ -221,77 +209,11 @@ export default function AdminDashboard() {
       </div>
 
       {/* Bottom Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Drinks Distribution */}
-        <Card className="shadow-sm border border-border p-6!">
-          <CardHeader className="flex flex-row items-center gap-2 p-0!">
-            <Wine className="h-4 w-4 text-[#D4AF37]" />
-            <CardTitle className="text-base">
-              Distribución de Bebidas
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-0!">
-            {Object.keys(stats.drinkCounts).length === 0 ? (
-              <div className="text-center py-8">
-                <Wine className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
-                <p className="text-muted-foreground text-sm">
-                  Aún no hay selecciones de bebidas
-                </p>
-                <p className="text-muted-foreground/60 text-xs mt-1">
-                  Las bebidas aparecerán cuando las familias confirmen
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {Object.entries(stats.drinkCounts)
-                  .sort(([, a], [, b]) => b - a)
-                  .map(([drink, count]) => {
-                    const total = Object.values(stats.drinkCounts).reduce(
-                      (a, b) => a + b,
-                      0
-                    );
-                    const pct = Math.round((count / total) * 100);
-                    const color = DRINK_COLORS[drink] || "#6B7280";
-                    return (
-                      <div key={drink}>
-                        <div className="flex justify-between text-sm mb-1.5">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="w-3 h-3 rounded-full"
-                              style={{ backgroundColor: color }}
-                            />
-                            <span className="font-medium text-foreground">
-                              {drink}
-                            </span>
-                          </div>
-                          <span className="text-muted-foreground font-medium">
-                            {count}{" "}
-                            <span className="text-muted-foreground/60 font-normal">
-                              ({pct}%)
-                            </span>
-                          </span>
-                        </div>
-                        <div className="w-full bg-muted rounded-full h-2.5">
-                          <div
-                            className="h-2.5 rounded-full transition-all duration-500"
-                            style={{
-                              width: `${pct}%`,
-                              backgroundColor: color,
-                            }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
+      <div className="grid grid-cols-1 gap-6">
         {/* Recent Responses */}
         <Card className="shadow-sm border border-border p-6!">
           <CardHeader className="flex flex-row items-center gap-2 p-0!">
-            <UserCheck className="h-4 w-4 text-[#4F5D48]" />
+            <UserCheck className="h-4 w-4 text-[#7B5138]" />
             <CardTitle className="text-base">Respuestas Recientes</CardTitle>
           </CardHeader>
           <CardContent className="p-0!">
@@ -354,21 +276,12 @@ export default function AdminDashboard() {
                           >
                             {r.confirmedCount}/{r.totalMembers}
                           </Badge>
-                          {r.drinkChoice && (
+                          {r.needsTransport && (
                             <Badge
                               variant="outline"
-                              style={{
-                                backgroundColor:
-                                  (DRINK_COLORS[r.drinkChoice] || "#6B7280") +
-                                  "15",
-                                color:
-                                  DRINK_COLORS[r.drinkChoice] || "#6B7280",
-                                borderColor:
-                                  (DRINK_COLORS[r.drinkChoice] || "#6B7280") +
-                                  "30",
-                              }}
+                              className="bg-violet-50 text-violet-600 border-violet-200"
                             >
-                              {r.drinkChoice}
+                              <Bus className="h-3 w-3 mr-1" /> Transporte
                             </Badge>
                           )}
                         </>

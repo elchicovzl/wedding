@@ -27,20 +27,12 @@ export async function GET() {
     0
   );
 
-  const stayingOvernight = confirmed.filter(
-    (f) => f.stayOvernight === true
+  const needTransport = confirmed.filter(
+    (f) => f.needsTransport === true
   ).length;
-  const notStaying = confirmed.filter(
-    (f) => f.stayOvernight === false
+  const noTransport = confirmed.filter(
+    (f) => f.needsTransport === false
   ).length;
-
-  // Drink distribution
-  const drinkCounts: Record<string, number> = {};
-  confirmed.forEach((f) => {
-    if (f.drinkChoice) {
-      drinkCounts[f.drinkChoice] = (drinkCounts[f.drinkChoice] || 0) + 1;
-    }
-  });
 
   // Recent responses
   const recentResponses = families
@@ -54,8 +46,7 @@ export async function GET() {
     .map((f) => ({
       name: f.name,
       groupAttending: f.groupAttending,
-      drinkChoice: f.drinkChoice,
-      stayOvernight: f.stayOvernight,
+      needsTransport: f.needsTransport,
       respondedAt: f.respondedAt,
       confirmedCount: f.members.filter((m) => m.attending === true).length,
       totalMembers: f.members.length,
@@ -71,9 +62,8 @@ export async function GET() {
     confirmedMembers,
     declinedFamilies: declined.length,
     pendingFamilies: pending.length,
-    stayingOvernight,
-    notStaying,
-    drinkCounts,
+    needTransport,
+    noTransport,
     recentResponses,
   });
 }

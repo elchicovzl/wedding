@@ -24,6 +24,28 @@
   letter-spacing: 0.1em;
 }
 
+.quote-reference {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: var(--spacing-xs);
+}
+
+.welcome-text {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin: 0 auto var(--spacing-xs);
+  line-height: 1.7;
+}
+
+.welcome-text--accent {
+  color: var(--color-primary);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
 /* Footer Section */
 .footer {
   padding: var(--spacing-xl) 0;

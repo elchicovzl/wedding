@@ -23,7 +23,20 @@
 
 @media (min-width: 768px) {
     .details-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .detail-card {
+        grid-column: span 2;
+    }
+
+    /* 5 cards: row of 3 on top, centered row of 2 below */
+    .detail-card:nth-child(4) {
+        grid-column: 1 / 4;
+    }
+
+    .detail-card:nth-child(5) {
+        grid-column: 4 / 7;
     }
 }
 

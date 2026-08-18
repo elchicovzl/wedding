@@ -37,8 +37,7 @@ export default async function InvitePage({
         alreadyResponded
           ? {
               groupAttending: family.groupAttending,
-              drinkChoice: family.drinkChoice,
-              stayOvernight: family.stayOvernight,
+              needsTransport: family.needsTransport,
               members: membersData,
             }
           : undefined

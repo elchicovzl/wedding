@@ -21,8 +21,7 @@ model Family {
   totalSlots     Int
   childrenCount  Int       @default(0)
   groupAttending Boolean?
-  drinkChoice    String?
-  stayOvernight  Boolean?
+  needsTransport Boolean?
   invitationSent Boolean   @default(false)
   respondedAt    DateTime?
   createdAt      DateTime  @default(now())

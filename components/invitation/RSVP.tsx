@@ -9,8 +9,6 @@ import {
 } from "react-icons/fa";
 import "./RSVP.css";
 
-const DRINK_OPTIONS = ["Cerveza", "Guaro", "Ron", "Whisky", "Vino", "Agua"];
-
 interface MemberData {
   id: string;
   name: string;
@@ -25,8 +23,7 @@ interface RSVPProps {
   alreadyResponded: boolean;
   previousResponse?: {
     groupAttending: boolean | null;
-    drinkChoice: string | null;
-    stayOvernight: boolean | null;
+    needsTransport: boolean | null;
     members: MemberData[];
   };
 }
@@ -48,11 +45,8 @@ const RSVP = ({
     }
     return new Set();
   });
-  const [selectedDrink, setSelectedDrink] = useState<string>(
-    previousResponse?.drinkChoice || ""
-  );
-  const [stayOvernight, setStayOvernight] = useState<boolean | null>(
-    previousResponse?.stayOvernight ?? null
+  const [needsTransport, setNeedsTransport] = useState<boolean | null>(
+    previousResponse?.needsTransport ?? null
   );
   const [groupAttending, setGroupAttending] = useState<boolean | null>(
     previousResponse?.groupAttending ?? null
@@ -67,9 +61,8 @@ const RSVP = ({
   const handleGroupAttendance = (willAttend: boolean) => {
     setGroupAttending(willAttend);
     if (!willAttend) {
-      setSelectedDrink("");
       setConfirmedGuests(new Set());
-      setStayOvernight(null);
+      setNeedsTransport(null);
     }
   };
 
@@ -99,12 +92,8 @@ const RSVP = ({
         setError("Por favor, confirma al menos un miembro del grupo.");
         return;
       }
-      if (!selectedDrink) {
-        setError("Por favor, selecciona una bebida para el grupo.");
-        return;
-      }
-      if (stayOvernight === null) {
-        setError("Por favor, indícanos si se quedarán en la finca.");
+      if (needsTransport === null) {
+        setError("Por favor, indícanos si necesitan transporte.");
         return;
       }
     }
@@ -125,8 +114,7 @@ const RSVP = ({
         body: JSON.stringify({
           groupAttending,
           memberAttendance,
-          drinkChoice: groupAttending ? selectedDrink : null,
-          stayOvernight: groupAttending ? stayOvernight : null,
+          needsTransport: groupAttending ? needsTransport : null,
         }),
       });
 
@@ -176,7 +164,7 @@ const RSVP = ({
                 <p className="drinks-subtitle">
                   Indispensable confirmar asistencia
                   <br />
-                  antes del 10 de mayo 2026
+                  antes del 02 de Septiembre 2026
                 </p>
                 <div className="attendance-toggle group-toggle">
                   <button
@@ -258,68 +246,32 @@ const RSVP = ({
                       </ul>
                     </div>
 
-                    {/* Drinks */}
-                    <div className="drinks-section group-attendance-card">
-                      <h3 className="drinks-title sans-font">
-                        ¿Qué prefieren tomar?
-                      </h3>
-                      <p className="drinks-subtitle">
-                        Seleccionen una bebida para el grupo.
-                      </p>
-
-                      <div className="drink-grid drink-grid-single">
-                        {DRINK_OPTIONS.map((drinkStr) => (
-                          <label
-                            key={drinkStr}
-                            className={`drink-option drink-option-lg ${selectedDrink === drinkStr ? "selected" : ""}`}
-                          >
-                            <input
-                              type="radio"
-                              name="group-drink"
-                              value={drinkStr}
-                              checked={selectedDrink === drinkStr}
-                              onChange={() => setSelectedDrink(drinkStr)}
-                            />
-                            <span>{drinkStr}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Overnight stay */}
+                    {/* Transport */}
                     <div className="group-attendance-card">
                       <h3 className="attendance-question sans-font">
-                        ¿Se quedan a dormir en la finca?
+                        ¿Necesitan transporte?
                       </h3>
                       <div className="overnight-info">
-                        <p className="overnight-info-title">Información de alojamiento</p>
                         <p>
-                          Para quienes deseen evitar el viaje de regreso y disfrutar con nosotros el día siguiente, la finca ofrece habitaciones sencillas de descanso.
+                          Para facilitar su llegada y regreso, tendremos la
+                          opción de transporte con un punto de encuentro hacia
+                          el lugar de la celebración.
                         </p>
-                        <p style={{ marginTop: '0.5rem' }}>
-                          <strong>Sabado de amigos:</strong> Tendremos piscina, desayuno americano y un sancocho para el almuerzo.
-                        </p>
-                        <p className="overnight-info-title" style={{ marginTop: '0.75rem' }}>Checklist para tu maleta:</p>
-                        <ul className="overnight-checklist">
-                          <li>Cobija y toalla</li>
-                          <li>Vestido de baño</li>
-                          <li>Artículos personales</li>
-                        </ul>
                       </div>
                       <div className="attendance-toggle group-toggle">
                         <button
                           type="button"
-                          className={`toggle-btn ${stayOvernight === true ? "active-yes" : ""}`}
-                          onClick={() => setStayOvernight(true)}
+                          className={`toggle-btn ${needsTransport === true ? "active-yes" : ""}`}
+                          onClick={() => setNeedsTransport(true)}
                         >
-                          Sí, nos quedamos
+                          Sí, necesitamos
                         </button>
                         <button
                           type="button"
-                          className={`toggle-btn ${stayOvernight === false ? "active-no" : ""}`}
-                          onClick={() => setStayOvernight(false)}
+                          className={`toggle-btn ${needsTransport === false ? "active-no" : ""}`}
+                          onClick={() => setNeedsTransport(false)}
                         >
-                          No, regresamos
+                          No, llegamos por nuestra cuenta
                         </button>
                       </div>
                     </div>

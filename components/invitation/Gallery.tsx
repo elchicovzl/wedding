@@ -1,66 +1,62 @@
 "use client";
 
-import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
 const MEDIA = [
   {
-    src: '/images/gallery-4.jpg',
-    alt: 'Milena y Miguel',
+    src: '/images/gallery-1.jpg',
+    alt: 'Jair y Yaneth',
     span: 'tall',
-    type: 'image' as const,
   },
   {
     src: '/images/gallery-2.jpg',
-    alt: 'Momento especial',
-    span: 'normal',
-    type: 'image' as const,
-  },
-  {
-    src: '/images/gallery-1.jpg',
-    alt: 'Juntos',
-    span: 'normal',
-    type: 'image' as const,
-  },
-  {
-    src: '/images/gallery-video.mp4',
-    alt: 'Video',
+    alt: 'Save the date',
     span: 'wide',
-    type: 'video' as const,
   },
   {
     src: '/images/gallery-3.jpg',
-    alt: 'Nuestra historia',
-    span: 'wide',
-    type: 'image' as const,
+    alt: 'Juntos',
+    span: 'tall',
+  },
+  {
+    src: '/images/gallery-4.jpg',
+    alt: 'Momento especial',
+    span: 'normal',
   },
   {
     src: '/images/gallery-5.jpg',
-    alt: 'Amor',
-    span: 'tall',
-    type: 'image' as const,
+    alt: 'Jair y Yaneth',
+    span: 'wide',
   },
   {
     src: '/images/gallery-6.jpg',
-    alt: 'Milena y Miguel',
+    alt: 'Yaneth',
+    span: 'tall',
+  },
+  {
+    src: '/images/gallery-7.jpg',
+    alt: 'Jair',
+    span: 'tall',
+  },
+  {
+    src: '/images/gallery-8.jpg',
+    alt: 'Juntos',
     span: 'normal',
-    type: 'image' as const,
+  },
+  {
+    src: '/images/gallery-9.jpg',
+    alt: 'Anillos',
+    span: 'normal',
+  },
+  {
+    src: '/images/gallery-10.jpg',
+    alt: 'Bailando',
+    span: 'wide',
   },
 ];
 
 const Gallery = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
-
   return (
     <section className="section gallery-section" id="gallery">
       <div className="container">
@@ -71,8 +67,7 @@ const Gallery = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="script-font gallery-title">Nuestra Historia</h2>
-          <p className="sans-font gallery-subtitle">Momentos que atesoramos</p>
+          <h2 className="script-font gallery-title">Estás invitado</h2>
         </motion.div>
 
         <div className="gallery-grid">
@@ -86,31 +81,11 @@ const Gallery = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <div className="gallery-img-wrap">
-                {item.type === 'video' ? (
-                  <div style={{ position: 'relative' }}>
-                    <video
-                      ref={videoRef}
-                      src={item.src}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                    />
-                    <button
-                      onClick={toggleMute}
-                      className="video-mute-btn"
-                      aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
-                    >
-                      {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-                    </button>
-                  </div>
-                ) : (
-                  <img
-                    src={item.src}
-                    alt={item.alt}
-                    loading="lazy"
-                  />
-                )}
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading="lazy"
+                />
               </div>
             </motion.div>
           ))}

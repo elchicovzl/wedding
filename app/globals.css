@@ -7,14 +7,14 @@
 
 :root {
   /* Color Palette - Elegant Olive & Beige */
-  --color-primary: #4F5D48; /* Olive Green */
-  --color-primary-light: #7E9273;
-  --color-secondary: #D4AF37; /* Soft Gold */
-  --color-secondary-light: #EBD999;
-  --color-background: #FDFBF7; /* Off-white / Cream */
+  --color-primary: #7B5138; /* Mocha */
+  --color-primary-light: #A9805B; /* Nude */
+  --color-secondary: #C9A87C; /* Champagne Gold */
+  --color-secondary-light: #EBD9BC;
+  --color-background: #FAF6EF; /* Cream */
   --color-surface: #FFFFFF;
-  --color-text-main: #2C352D; /* Dark Olive/Charcoal for readability */
-  --color-text-muted: #6B7262;
+  --color-text-main: #3E2E23; /* Espresso for readability */
+  --color-text-muted: #8A7264;
 
   /* Typography */
   --font-serif: 'Cormorant Garamond', serif;

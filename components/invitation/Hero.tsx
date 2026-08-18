@@ -135,7 +135,7 @@ const Hero = ({ brideName, groomName, weddingDate, locationDetails }: HeroProps)
           distance: 140,
           links: {
             opacity: 0.4,
-            color: "#D4AF37",
+            color: "#C9A87C",
           },
         },
         push: {
@@ -144,7 +144,7 @@ const Hero = ({ brideName, groomName, weddingDate, locationDetails }: HeroProps)
       },
     },
     particles: {
-      color: { value: "#EBD999" },
+      color: { value: "#EBD9BC" },
       links: {
         enable: false,
       },

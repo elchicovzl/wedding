@@ -71,8 +71,7 @@ interface Family {
   totalSlots: number;
   childrenCount: number;
   groupAttending: boolean | null;
-  drinkChoice: string | null;
-  stayOvernight: boolean | null;
+  needsTransport: boolean | null;
   invitationSent: boolean;
   respondedAt: string | null;
   members: Member[];
@@ -364,8 +363,7 @@ export default function FamiliesPage() {
                 <TableHead>Integrantes</TableHead>
                 <TableHead className="text-center">Enviada</TableHead>
                 <TableHead className="text-center">Estado</TableHead>
-                <TableHead className="text-center">Bebida</TableHead>
-                <TableHead className="text-center">Finca</TableHead>
+                <TableHead className="text-center">Transporte</TableHead>
                 <TableHead className="text-center w-[60px] pr-3!">Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -433,22 +431,11 @@ export default function FamiliesPage() {
                     {getStatusBadge(family)}
                   </TableCell>
 
-                  {/* Drink */}
+                  {/* Transport */}
                   <TableCell className="text-center">
-                    {family.drinkChoice ? (
-                      <Badge variant="secondary" className="font-medium">
-                        {family.drinkChoice}
-                      </Badge>
-                    ) : (
+                    {family.needsTransport === null ? (
                       <span className="text-muted-foreground/40">—</span>
-                    )}
-                  </TableCell>
-
-                  {/* Overnight */}
-                  <TableCell className="text-center">
-                    {family.stayOvernight === null ? (
-                      <span className="text-muted-foreground/40">—</span>
-                    ) : family.stayOvernight ? (
+                    ) : family.needsTransport ? (
                       <Badge variant="outline" className="bg-violet-50 text-violet-600 border-violet-200 font-medium">
                         Sí
                       </Badge>
@@ -577,23 +564,13 @@ export default function FamiliesPage() {
                 ))}
               </div>
 
-              {/* Footer: Drink + Overnight */}
+              {/* Footer: Transport */}
               <div className="flex items-center gap-4 text-sm pt-2 border-t border-border">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-muted-foreground text-xs">Bebida:</span>
-                  {family.drinkChoice ? (
-                    <Badge variant="secondary" className="font-medium text-xs">
-                      {family.drinkChoice}
-                    </Badge>
-                  ) : (
+                  <span className="text-muted-foreground text-xs">Transporte:</span>
+                  {family.needsTransport === null ? (
                     <span className="text-muted-foreground/40">—</span>
-                  )}
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-muted-foreground text-xs">Finca:</span>
-                  {family.stayOvernight === null ? (
-                    <span className="text-muted-foreground/40">—</span>
-                  ) : family.stayOvernight ? (
+                  ) : family.needsTransport ? (
                     <Badge variant="outline" className="bg-violet-50 text-violet-600 border-violet-200 font-medium text-xs">
                       Sí
                     </Badge>
