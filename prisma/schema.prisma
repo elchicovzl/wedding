@@ -3,8 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Session-mode connection (port 5432): migrate commands hang on the
+  // transaction pooler because PgBouncer breaks pg_advisory_lock
+  directUrl = env("DIRECT_URL")
 }
 
 model AdminUser {
