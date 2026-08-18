@@ -25,6 +25,8 @@
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    /* dense: backfill holes left by tall/wide spans so no empty cells show */
+    grid-auto-flow: dense;
     gap: var(--spacing-sm);
     max-width: 900px;
     margin: 0 auto;
