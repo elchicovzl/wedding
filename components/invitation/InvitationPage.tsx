@@ -66,13 +66,13 @@ export default function InvitationPage({
             <p className="script-font quote-text">
               Porque si hay algo que nos encanta, es pasarla bueno juntos.
             </p>
-            <p className="welcome-text sans-font">
+            <p className="welcome-text">
               Los esperamos para compartir el comienzo de una nueva aventura,
               con comida rica, nuestra gente favorita y, por supuesto…
               musiquita.
             </p>
-            <p className="welcome-text welcome-text--accent sans-font">
-              Los que saben, saben.
+            <p className="welcome-text welcome-text--accent">
+              Los que saben, saben…
             </p>
           </motion.div>
         </div>
@@ -95,7 +95,7 @@ export default function InvitationPage({
             pueden hacerle frente al agresor. Y una cuerda triple no se rompe
             fácilmente.&rdquo;
           </p>
-          <p className="quote-reference sans-font">Eclesiastés 4:12</p>
+          <p className="quote-reference">Eclesiastés 4:12</p>
         </div>
       </div>
 

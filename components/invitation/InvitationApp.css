@@ -24,15 +24,16 @@
   letter-spacing: 0.1em;
 }
 
+/* Same script face as the quote itself, per the couple's request */
 .quote-reference {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--font-script);
+  font-size: clamp(1.3rem, 3vw, 1.75rem);
+  color: var(--color-primary);
   margin-top: var(--spacing-xs);
 }
 
 .welcome-text {
+  font-family: var(--font-sans);
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   color: var(--color-text-muted);
   max-width: 640px;
