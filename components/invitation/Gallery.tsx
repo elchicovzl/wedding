@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
 const MEDIA = [
@@ -57,6 +59,16 @@ const MEDIA = [
 ];
 
 const Gallery = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
+
   return (
     <section className="section gallery-section" id="gallery">
       <div className="container">
@@ -68,6 +80,32 @@ const Gallery = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="script-font gallery-title">Estás invitado</h2>
+        </motion.div>
+
+        <motion.div
+          className="gallery-video"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="gallery-img-wrap">
+            <video
+              ref={videoRef}
+              src="/images/gallery-video.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            <button
+              onClick={toggleMute}
+              className="video-mute-btn"
+              aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
+            >
+              {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+            </button>
+          </div>
         </motion.div>
 
         <div className="gallery-grid">

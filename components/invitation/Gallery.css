@@ -106,6 +106,17 @@
     display: block;
 }
 
+/* Featured video above the photo grid */
+.gallery-video {
+    max-width: 900px;
+    margin: 0 auto var(--spacing-md);
+}
+
+.gallery-video .gallery-img-wrap {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+}
+
 .video-mute-btn {
     position: absolute;
     bottom: 12px;
