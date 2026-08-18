@@ -110,11 +110,15 @@
 .gallery-video {
     max-width: 900px;
     margin: 0 auto var(--spacing-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
 }
 
 .gallery-video .gallery-img-wrap {
     aspect-ratio: 16 / 9;
     min-height: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .video-mute-btn {

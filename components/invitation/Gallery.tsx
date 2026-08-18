@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
@@ -60,7 +60,17 @@ const MEDIA = [
 
 const Gallery = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const videoBlockRef = useRef<HTMLDivElement>(null);
   const [isMuted, setIsMuted] = useState(true);
+
+  // Cinematic reveal: the video grows and sharpens as it scrolls into view
+  const { scrollYProgress } = useScroll({
+    target: videoBlockRef,
+    offset: ["start end", "center center"],
+  });
+  const videoScale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+  const videoOpacity = useTransform(scrollYProgress, [0, 0.5], [0.35, 1]);
+  const videoRadius = useTransform(scrollYProgress, [0, 1], [32, 12]);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -83,11 +93,13 @@ const Gallery = () => {
         </motion.div>
 
         <motion.div
+          ref={videoBlockRef}
           className="gallery-video"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
+          style={{
+            scale: videoScale,
+            opacity: videoOpacity,
+            borderRadius: videoRadius,
+          }}
         >
           <div className="gallery-img-wrap">
             <video
