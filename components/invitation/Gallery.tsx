@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
 const MEDIA = [
@@ -57,6 +59,26 @@ const MEDIA = [
 ];
 
 const Gallery = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoBlockRef = useRef<HTMLDivElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  // Cinematic reveal: the video grows and sharpens as it scrolls into view
+  const { scrollYProgress } = useScroll({
+    target: videoBlockRef,
+    offset: ["start end", "center center"],
+  });
+  const videoScale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+  const videoOpacity = useTransform(scrollYProgress, [0, 0.5], [0.35, 1]);
+  const videoRadius = useTransform(scrollYProgress, [0, 1], [32, 12]);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
+
   return (
     <section className="section gallery-section" id="gallery">
       <div className="container">
@@ -68,6 +90,34 @@ const Gallery = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="script-font gallery-title">Estás invitado</h2>
+        </motion.div>
+
+        <motion.div
+          ref={videoBlockRef}
+          className="gallery-video"
+          style={{
+            scale: videoScale,
+            opacity: videoOpacity,
+            borderRadius: videoRadius,
+          }}
+        >
+          <div className="gallery-img-wrap">
+            <video
+              ref={videoRef}
+              src="/images/gallery-video.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            <button
+              onClick={toggleMute}
+              className="video-mute-btn"
+              aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
+            >
+              {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+            </button>
+          </div>
         </motion.div>
 
         <div className="gallery-grid">
