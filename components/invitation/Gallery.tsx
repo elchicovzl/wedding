@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
 const MEDIA = [
@@ -59,9 +58,7 @@ const MEDIA = [
 ];
 
 const Gallery = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const videoBlockRef = useRef<HTMLDivElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
 
   // Cinematic reveal: the video grows and sharpens as it scrolls into view
   const { scrollYProgress } = useScroll({
@@ -71,13 +68,6 @@ const Gallery = () => {
   const videoScale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
   const videoOpacity = useTransform(scrollYProgress, [0, 0.5], [0.35, 1]);
   const videoRadius = useTransform(scrollYProgress, [0, 1], [32, 12]);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
 
   return (
     <section className="section gallery-section" id="gallery">
@@ -102,21 +92,16 @@ const Gallery = () => {
           }}
         >
           <div className="gallery-img-wrap">
+            {/* No autoplay: the tap on play is the user gesture browsers
+                require, so it starts WITH sound; it also keeps the 20MB
+                download from competing with the photos on page load */}
             <video
-              ref={videoRef}
               src="/images/gallery-video.mp4"
-              autoPlay
-              muted
-              loop
+              poster="/images/gallery-video-poster.jpg"
+              controls
+              preload="metadata"
               playsInline
             />
-            <button
-              onClick={toggleMute}
-              className="video-mute-btn"
-              aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
-            >
-              {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-            </button>
           </div>
         </motion.div>
 
