@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import './Gallery.css';
 
 const MEDIA = [
@@ -66,29 +66,7 @@ const MEDIA = [
 const Gallery = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoBlockRef = useRef<HTMLDivElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-
-  // Sound starts ON: the play tap is the user gesture browsers require
-  const handlePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = isMuted;
-    video.play();
-    setIsPlaying(true);
-  };
-
-  const togglePause = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play();
-      setIsPlaying(true);
-    } else {
-      video.pause();
-      setIsPlaying(false);
-    }
-  };
+  const [isMuted, setIsMuted] = useState(true);
 
   const toggleMute = () => {
     const video = videoRef.current;
@@ -133,29 +111,18 @@ const Gallery = () => {
               ref={videoRef}
               src="/images/gallery-video.mp4"
               poster="/images/gallery-video-poster.jpg"
-              preload="metadata"
+              autoPlay
+              muted
+              loop
               playsInline
-              onClick={isPlaying ? togglePause : handlePlay}
-              onEnded={() => setIsPlaying(false)}
             />
-            {!isPlaying && (
-              <button
-                onClick={handlePlay}
-                className="video-play-btn"
-                aria-label="Reproducir video"
-              >
-                <FaPlay />
-              </button>
-            )}
-            {isPlaying && (
-              <button
-                onClick={toggleMute}
-                className="video-mute-btn"
-                aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
-              >
-                {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-              </button>
-            )}
+            <button
+              onClick={toggleMute}
+              className={`video-mute-btn ${isMuted ? 'video-mute-btn--attention' : ''}`}
+              aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
+            >
+              {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+            </button>
           </div>
         </motion.div>
 
