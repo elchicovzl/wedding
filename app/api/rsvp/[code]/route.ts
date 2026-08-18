@@ -21,8 +21,7 @@ export async function GET(
     totalSlots: family.totalSlots,
     childrenCount: family.childrenCount,
     groupAttending: family.groupAttending,
-    drinkChoice: family.drinkChoice,
-    stayOvernight: family.stayOvernight,
+    needsTransport: family.needsTransport,
     respondedAt: family.respondedAt,
     members: family.members.map((m) => ({
       id: m.id,
@@ -49,15 +48,14 @@ export async function POST(
   }
 
   const body = await request.json();
-  const { groupAttending, memberAttendance, drinkChoice, stayOvernight } = body;
+  const { groupAttending, memberAttendance, needsTransport } = body;
 
   // Update family
   await prisma.family.update({
     where: { id: family.id },
     data: {
       groupAttending,
-      drinkChoice: groupAttending ? drinkChoice : null,
-      stayOvernight: groupAttending ? stayOvernight : null,
+      needsTransport: groupAttending ? needsTransport : null,
       respondedAt: new Date(),
     },
   });

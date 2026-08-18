@@ -44,10 +44,10 @@ export default function LoginPage() {
             style={{
               fontFamily: "'Great Vibes', cursive",
               fontSize: "2.5rem",
-              color: "#4F5D48",
+              color: "#7B5138",
             }}
           >
-            Milena & Miguel
+            Jair & Yaneth
           </h1>
           <p className="text-sm text-gray-500 mt-2 tracking-widest uppercase font-sans">
             Panel de Administración
@@ -70,7 +70,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F5D48] focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7B5138] focus:border-transparent"
               required
             />
           </div>
@@ -87,7 +87,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F5D48] focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7B5138] focus:border-transparent"
               required
             />
           </div>
@@ -99,7 +99,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 px-4 bg-[#4F5D48] text-white rounded-md hover:bg-[#3d4a38] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            className="w-full py-2 px-4 bg-[#7B5138] text-white rounded-md hover:bg-[#5e3d2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
           >
             {loading ? "Ingresando..." : "Ingresar"}
           </button>

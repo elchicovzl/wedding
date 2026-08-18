@@ -20,7 +20,7 @@ export default function Home() {
           marginBottom: "1rem",
         }}
       >
-        Milena & Miguel
+        Jair & Yaneth
       </h1>
       <p
         style={{
@@ -32,7 +32,7 @@ export default function Home() {
           marginBottom: "2rem",
         }}
       >
-        Viernes, 10 de Julio 2026
+        Viernes, 16 de Octubre 2026
       </p>
       <p style={{ color: "var(--color-text-muted)", maxWidth: "400px" }}>
         Esta invitación requiere un enlace personalizado. Por favor, utiliza el

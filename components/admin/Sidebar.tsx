@@ -57,11 +57,11 @@ export default function AdminSidebar({ email }: { email: string }) {
           style={{
             fontFamily: "'Great Vibes', cursive",
             fontSize: "1.75rem",
-            color: "#D4AF37",
+            color: "#C9A87C",
             lineHeight: 1.2,
           }}
         >
-          Milena & Miguel
+          Jair & Yaneth
         </h2>
         <p style={{ fontSize: "0.65rem", color: "#6B7280", marginTop: "0.375rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
           Panel de Admin
@@ -82,7 +82,7 @@ export default function AdminSidebar({ email }: { email: string }) {
           <div style={{ width: "100%", backgroundColor: "#374151", borderRadius: "9999px", height: "6px" }}>
             <div
               style={{
-                backgroundColor: "#D4AF37",
+                backgroundColor: "#C9A87C",
                 height: "6px",
                 borderRadius: "9999px",
                 transition: "all 0.7s",
@@ -119,9 +119,9 @@ export default function AdminSidebar({ email }: { email: string }) {
                   fontWeight: 500,
                   textDecoration: "none",
                   transition: "all 0.15s",
-                  backgroundColor: active ? "#4F5D48" : "transparent",
+                  backgroundColor: active ? "#7B5138" : "transparent",
                   color: active ? "#fff" : "#9CA3AF",
-                  boxShadow: active ? "0 4px 12px rgba(79,93,72,0.2)" : "none",
+                  boxShadow: active ? "0 4px 12px rgba(123,81,56,0.2)" : "none",
                 }}
               >
                 <item.icon style={{ fontSize: "1rem" }} />

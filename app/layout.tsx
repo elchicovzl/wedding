@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: "Milena & Miguel - Boda",
-  description: "Invitación de boda - Viernes, 10 de Julio 2026",
+  title: "Jair & Yaneth - Boda",
+  description: "Invitación de boda - Viernes, 16 de Octubre 2026",
 };
 
 export default function RootLayout({
